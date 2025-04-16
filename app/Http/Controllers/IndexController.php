@@ -1201,7 +1201,7 @@ class IndexController extends Controller
             </div>
             
             <div class="content">
-                <h1 class="title">¡Gracias <span style="color: #354273;">por escribirnos!</span></h1>
+                <h1 class="title">¡Gracias <span style="color: #FFFFFF;">por escribirnos!</span></h1>
                 
                 <p style="font-size: 18px; margin-bottom: 10px;">Hola {$name}</p>
                 <p style="font-size: 18px; margin-bottom: 20px;">En breve estaremos comunicándonos contigo.</p>
