@@ -7,14 +7,15 @@
     <meta name="title" content="@yield('meta_title', 'Default Title')">
     <meta name="description" content="@yield('meta_description', 'Default Description')">
     <meta name="keywords" content="@yield('meta_keywords', 'default, keywords')">
-    <title>{{ ucwords(strtolower($pagina ?? 'Pagina'))  }} | {{ config('app.name', 'Laravel') }}</title>
-    
-    
-    
+    <title>{{ ucwords(strtolower($pagina ?? 'Pagina')) }} | {{ config('app.name', 'Laravel') }}</title>
+
+
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- <link rel="stylesheet" href="{{ asset('css/styles.css') }}" /> --}}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+
+
 
     @stack('head')
 
@@ -24,14 +25,14 @@
     {{-- Swipper --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    
-    
+
+
     {{-- Modal Jquery --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-   
+
     {{-- Alpine --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -39,14 +40,22 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
- 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: "Geist", sans-serif;
+        }
+    </style>
 </head>
 
 <body class="body">
     {{-- <div class="overlay"></div> --}}
-    @include('components.public.header')
+    {{-- @include('components.public.header') --}}
 
     <div class="main">
 
@@ -56,13 +65,35 @@
 
 
 
-    @include('components.public.footer')
+    {{-- @include('components.public.footer') --}}
 
 
 
     @yield('scripts_importados')
     {{-- @vite(['resources/js/functions.js']) --}}
     {{-- <script src="{{ asset('js/functions.js') }}"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+    <!-- TweenMax -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <!-- TweenMax Club More-->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Flip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Observer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/MotionPathPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EaselPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/PixiPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/TextPlugin.min.js"></script>
+    <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EasePack.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js"></script>
+
     <script src="{{ asset('js/function.js') }}"></script>
     <script src="{{ asset('js/carrito.js') }}"></script>
 
@@ -211,9 +242,10 @@
                     }).then(() => {
                         // Resetear formulario
                         form.reset();
-                        
+
                         // Crear enlace temporal y hacer clic
-                        const whatsappUrl = `https://api.whatsapp.com/send?phone={{ $general[0]->whatsapp }}&text={{ $general[0]->mensaje_whatsapp }}`;
+                        const whatsappUrl =
+                            `https://api.whatsapp.com/send?phone={{ $general[0]->whatsapp }}&text={{ $general[0]->mensaje_whatsapp }}`;
                         const link = document.createElement('a');
                         link.href = whatsappUrl;
                         link.target = '_blank';
@@ -282,7 +314,8 @@
                     });
 
                     $('#dataWhatsapp2')[0].reset();
-                    window.location.href = 'https://api.whatsapp.com/send?phone={{ $general[0]->whatsapp2 }}&text={{ $general[0]->mensaje_whatsapp }}';
+                    window.location.href =
+                        'https://api.whatsapp.com/send?phone={{ $general[0]->whatsapp2 }}&text={{ $general[0]->mensaje_whatsapp }}';
                 },
                 error: function(error) {
                     Swal.close();
@@ -491,7 +524,7 @@
                 error: function(error) {
                     Swal.close();
                     const obj = error.responseJSON.message;
-                    
+
                     const keys = Object.keys(error.responseJSON.message);
                     let flag = false;
                     keys.forEach(key => {
@@ -508,9 +541,6 @@
                 }
             });
         })
-
-
-       
     </script>
 
 </body>

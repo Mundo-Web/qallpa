@@ -41,6 +41,7 @@ use App\Models\ContactoView;
 use App\Models\HomeView;
 use App\Models\InnovacionView;
 use App\Models\NosotrosView;
+use App\Models\PolyticsChange;
 use App\Models\PolyticsCondition;
 use App\Models\ProductosView;
 use App\Models\TermsAndCondition;
@@ -70,55 +71,17 @@ class IndexController extends Controller
     {
         // $productos = Products::all();
         
-        $categorias = Category::all();
-        $textoshome = HomeView::first();
-        $destacados = Products::where('destacar', '=', 1)->where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('images')->get();
-        // $descuentos = Products::where('descuento', '>', 0)->where('status', '=', 1)
-        // ->where('visible', '=', 1)->with('tags')->get();
-        $promociones = Products::where('recomendar', '=', 1)->where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('images')->get();
-        $ultimoProducto = $promociones->last();
-        $restopromociones = $promociones->reject(function ($producto) use ($ultimoProducto) {
-          return $producto->id === $ultimoProducto->id;
-        });
-
+      
         $general = General::all();
-        $benefit = Strength::where('status', '=', 1)->get();
-        $faqs = Faqs::where('status', '=', 1)->where('visible', '=', 1)->get();
-        $testimonie = Testimony::where('status', '=', 1)->where('visible', '=', 1)->get();
-        $slider = Slider::where('status', '=', 1)->where('visible', '=', 1)->get();
-        $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('canals')->get();
-        $productos = Products::where('status', 1)
-          ->where('visible', 1)
-          ->with(['tags', 'canals'])
-          ->get()
-          ->map(function ($producto) {
-              // Extraer características desde la descripción
-              preg_match_all('/<p>(.*?)<\/p>/s', $producto->description, $matches);
-              $caracteristicas = array_filter(array_map(fn($text) => trim(strip_tags($text)), $matches[1]), fn($text) => !empty($text));
+      
+        $politicDev = PolyticsCondition::first();
+        $termsAndCondicitions = TermsAndCondition::first();
+        $polyticChange = PolyticsChange::first();
+     
 
-          // Retornar el producto modificado con las características
-          $producto->caracteristicas = $caracteristicas;
-          return $producto;
-          });
-        $category = Category::where('status', '=', 1)
-                        ->where('visible', '=', 1)
-                        // ->whereHas('productos', function ($query) {
-                        //     $query->where('status', 1)->where('visible', 1);
-                        // })
-                        ->orderBy('order', 'asc')
-                        ->get();
-        
-        $complementos = Liquidacion::where('status', '=', 1)
-                        ->where('visible', '=', 1)
-                        ->get();
 
-        $zonas = MisMarcas::where('status', '=', 1)->where('visible', '=', 1)->get();
-        $estadisticas = MisClientes::where('status', '=', 1)->where('visible', '=', 1)->get();
-        
-        $contactos = ContactDetail::where('status', '=', 1)->get();
-        $posts = Blog::where('status', '=', 1)->where('visible', '=', 1)->orderBy('created_at', 'desc')->take(3)->get();
 
-        return view('public.index', compact('ultimoProducto','restopromociones','textoshome', 'productos', 'destacados', 'promociones', 'general', 'benefit', 'faqs', 'testimonie', 'slider', 'categorias', 'category', 'complementos', 'posts','zonas', 'estadisticas', 'contactos'));
+        return view('public.index', compact('general', 'politicDev', 'termsAndCondicitions', 'polyticChange'));
     }
 
     public function coleccion($filtro)
@@ -912,12 +875,27 @@ class IndexController extends Controller
             $reglasValidacion = [
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
+                'phone' => 'required|numeric',
+                'country_code' => 'required|string',
+                'ruc' =>'required|numeric',
+                'service_product' =>'required|string|max:255',
             ];
             $mensajes = [
                 'full_name.required' => 'El campo nombre es obligatorio.',
                 'email.required' => 'El campo correo electrónico es obligatorio.',
                 'email.email' => 'El formato del correo electrónico no es válido.',
                 'email.max' => 'El campo correo electrónico no puede tener más de :max caracteres.',
+                'phone.required' => 'El campo teléfono es obligatorio.',
+                'phone.numeric' => 'El campo teléfono debe ser un número.',
+               
+                'country_code.required' => 'El campo código de país es obligatorio.',
+                'country_code.string' => 'El campo código de país debe ser una cadena de texto.',
+                'ruc.required' => 'El campo RUC es obligatorio.',
+                'ruc.numeric' => 'El campo RUC debe ser un número.',
+              
+                'service_product.required' => 'El campo producto o servicio es obligatorio.',
+                'service_product.string' => 'El campo producto o servicio debe ser una cadena de texto.',
+    
             ];
             $request->validate($reglasValidacion, $mensajes);
 
@@ -960,6 +938,7 @@ class IndexController extends Controller
            
 
             $formlanding = Message::create($data);
+            
             $this->envioCorreoAdmin($formlanding);
             $this->envioCorreoCliente($formlanding);
 
@@ -1057,7 +1036,7 @@ class IndexController extends Controller
         $emailadmin = $generales->email;
         $appUrl = env('APP_URL');
         $name = 'Administrador';
-        $mensaje = "Nueva solicitud de contacto - Adriana Pezo";
+        $mensaje = "Nueva solicitud de contacto - QALLPA";
         $mail = EmailConfig::config($name, $mensaje);
 
         try {
@@ -1216,7 +1195,7 @@ class IndexController extends Controller
        
         $name = $data['full_name'];
         $appUrl = env('APP_URL');
-        $mensaje = 'Gracias por comunicarte con Adriana Pezo, en breve nos pondremos en contacto contigo.';
+        $mensaje = 'Gracias por comunicarte con QALLPA, en breve nos pondremos en contacto contigo.';
         $mail = EmailConfig::config($name, $mensaje);
         // $baseUrl = 'https://' . $_SERVER['HTTP_HOST'] . '/mail';
         // $baseUrllink = 'https://' . $_SERVER['HTTP_HOST'] . '/';

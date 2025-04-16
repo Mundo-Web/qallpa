@@ -16,14 +16,12 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Correo</th>
+                                <th>País</th>
                                 <th>Teléfono</th>
-                                <th>IP</th>
-                                <th>Dispositivo</th>
-                                <th>Latitud</th>
-                                <th>Longitud</th>
-                                <th>Sistema</th>
-                                <th>Fuente</th>
-                                <th>Enviado</th> 
+                                <th>RUC</th>
+                                <th>Servicio</th>
+                             
+                                <th>Fecha</th> 
                                 <th class="w-32">Acciones</th>
                             </tr>
                         </thead>
@@ -43,14 +41,13 @@
 
                                     </td>
                                     <td>{{ $item->email }}</td>
-                                    <td>{{ $item->phone }}</td>
+                                   
 
-                                    <td>{{ $item->ip }}</td>
-                                    <td>{{ $item->device }}</td>
-                                    <td>{{ $item->client_latitude }}</td>
-                                    <td>{{ $item->client_longitude }}</td>
-                                    <td>{{ $item->client_system }}</td>
-                                    <td>{{ $item->source }}</td>
+                                    <td>{{ $codigosPaises[$item->country_code] ?? $item->country_code }}</td>
+                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->ruc }}</td>
+                                    <td>{{ $item->service_product }}</td>
+                                   
                                     <td>{{ $item->created_at->format('d-m-Y') }}</td>
                                     
                                     <td class="flex flex-row items-center justify-center">
@@ -65,16 +62,14 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Nombre</th>
+                            <th>Nombre</th>
                                 <th>Correo</th>
+                                <th>País</th>
                                 <th>Teléfono</th>
-                                <th>IP</th>
-                                <th>Dispositivo</th>
-                                <th>Latitud</th>
-                                <th>Longitud</th>
-                                <th>Sistema</th>
-                                <th>Fuente</th>
-                                <th>Enviado</th>
+                                <th>RUC</th>
+                                <th>Servicio</th>
+                             
+                                <th>Fecha</th> 
                                 <th>Acciones</th>
                                 
                             </tr>

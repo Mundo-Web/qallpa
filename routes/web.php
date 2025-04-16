@@ -53,6 +53,7 @@ use App\Http\Controllers\StrengthController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ValoresAtributosController;
 use App\Http\Controllers\MailingAnswerController;
+use App\Http\Controllers\PolyticsChangeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TermsAndConditionController;
@@ -155,8 +156,9 @@ Route::middleware(['auth:sanctum', 'verified', 'can:Admin'])->group(function () 
         Route::get('/mensajesproduct/{id}', [MessageController::class, 'showproductL'])->name('mensajesproduct.show');
         Route::post('/mensajesproduct/borrar', [MessageController::class, 'mensajesproductoDelete'])->name('mensajesproduct.borrar');
 
-        Route::resource('/politicas-de-devolucion', PolyticsConditionController::class);
-        Route::resource('/terminos-y-condiciones', TermsAndConditionController::class);    
+        Route::resource('/politicas-de-privacidad', PolyticsConditionController::class);
+        Route::resource('/terminos-y-condiciones', TermsAndConditionController::class);   
+        Route::resource('/politicas-de-cambio', PolyticsChangeController::class);   
         Route::post('mailing/reply/{messageId}', [MailingAnswerController::class, 'replyMailing'])->name('replyMailing');
         //Datos Generales
         Route::resource('/datosgenerales', GeneralController::class);

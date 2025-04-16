@@ -1,1208 +1,1104 @@
 @extends('components.public.matrix', ['pagina' => 'Inicio'])
 @section('titulo', 'Inicio')
 @section('css_importados')
+
+
+
     <style>
-        .swiper-testimonios .swiper-pagination-bullet {
-            width: 14px;
+        .swiper-pagination-numbers .swiper-pagination-bullet {
+            width: 22px;
             height: 8px;
-            border-radius: 6px;
-            background-color: #052F4E !important;
-        
+            border-radius: 0px;
+            background-color: #18C991 !important;
         }
 
-        .swiper-testimonios .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
-            background-color: #05304e56!important;
+        .swiper-pagination-numbers .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
+
+            background-color: #A9F1D1 !important;
             opacity: 1;
         }
 
-        .swiper-servicios .swiper-pagination-bullet {
-            width: 14px;
-            height: 8px;
-            border-radius: 6px;
-            background-color: #052F4E !important;
-        
+        /* Estilos para el modal */
+        #modalTerms {
+            transition: opacity 0.3s ease;
         }
 
-        .swiper-servicios .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
-            background-color: #05304e56!important;
-            opacity: 1;
+        #modalContent {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        #modalContent::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #modalContent::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #modalContent::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        #modalContent::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Estilos para los enlaces del modal */
+        .open-modal {
+            transition: color 0.2s ease;
+        }
+
+        .open-modal:hover {
+            color: #18C991;
+
         }
     </style>
-@stop
-@section('content')
-    
-    <main>
-        
-       
-        <section id="bannerprincipal">
-            <div class="flex flex-col gap-10 w-full px-[5%] pt-10 md:pt-16 bg-white overflow-hidden">
-                
-                <div class="grid grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-0">
-                    <div class="col-span-2 flex flex-col justify-between pb-0 lg:pb-10">
-                        <div class="flex flex-col p-2 justify-center items-start gap-8">
-                            <h2 class="text-[#09262A] font-merchant_medium text-5xl xl:text-6xl 2xl:text-7xl leading-[45px] xl:leading-[55px] tracking-tighter" data-aos="fade-down">Acompañamos el bienestar emocional y conductual de tu hijo</h2>
-                            
-                            <h2 class="text-[#1B4146] text-base xl:text-lg 2xl:text-xl font-Montserrat_Regular" data-aos="fade-down">
-                                Sabemos lo importante que es el bienestar emocional de los niños y adolescentes. Estamos aquí para escucharte y brindarte el apoyo que necesitas con empatía y profesionalismo.
-                            </h2>
 
-                            <div class="flex flex-row justify-start items-start" data-aos="fade-down">
-                                <a href="#productoscarrusel" id="scrollButton" 
-                                    class=" text-white py-3 px-6 bg-[#B380B5] rounded-3xl text-base 2xl:text-lg font-Montserrat_SemiBold text-center max-w-xs">
-                                    Nuestros servicios
-                                </a>
+    <main>
+        <div class="absolute top-0 left-0 opacity-70 w-full z-50 hidden ">
+            <img src="{{ asset('images/images/back_d.png') }}" alt="" class="w-full h-auto">
+        </div>
+        <!--Cintillo superior-->
+        <section class="bg-morado py-3 text-white flex justify-around md:justify-center md:gap-x-16 md:text-2xl md:py-4">
+
+            <a href="tel:{{ $general[0]->cellphone }}" class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                    <path
+                        d="M5.5 9C5.5 5.70017 5.5 4.05025 6.52513 3.02513C7.55025 2 9.20017 2 12.5 2C15.7998 2 17.4497 2 18.4749 3.02513C19.5 4.05025 19.5 5.70017 19.5 9V15C19.5 18.2998 19.5 19.9497 18.4749 20.9749C17.4497 22 15.7998 22 12.5 22C9.20017 22 7.55025 22 6.52513 20.9749C5.5 19.9497 5.5 18.2998 5.5 15V9Z"
+                        stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M11.5 19H13.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path
+                        d="M9.5 2L9.589 2.53402C9.78188 3.69129 9.87832 4.26993 10.2752 4.62204C10.6892 4.98934 11.2761 5 12.5 5C13.7239 5 14.3108 4.98934 14.7248 4.62204C15.1217 4.26993 15.2181 3.69129 15.411 2.53402L15.5 2"
+                        stroke="white" stroke-width="1.5" stroke-linejoin="round" />
+                </svg>
+                <span class="hidden md:block mr-2">Llámanos: </span>{{ $general[0]->cellphone }}
+            </a>
+
+            <a href="mailto:{{ $general[0]->email }}" class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                    <path
+                        d="M11 19.5C10.5337 19.4939 10.0668 19.485 9.59883 19.4732C6.45033 19.3941 4.87608 19.3545 3.74496 18.2184C2.61383 17.0823 2.58114 15.5487 2.51577 12.4814C2.49475 11.4951 2.49474 10.5147 2.51576 9.52843C2.58114 6.46113 2.61382 4.92748 3.74495 3.79139C4.87608 2.6553 6.45033 2.61573 9.59882 2.53658C11.5393 2.4878 13.4607 2.48781 15.4012 2.53659C18.5497 2.61574 20.1239 2.65532 21.255 3.79141C22.3862 4.92749 22.4189 6.46114 22.4842 9.52844C22.4939 9.98251 22.4991 10.1965 22.4999 10.5"
+                        stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2.5 5L9.41302 8.92462C11.9387 10.3585 13.0613 10.3585 15.587 8.92462L22.5 5" stroke="white"
+                        stroke-width="1.5" stroke-linejoin="round" />
+                    <path
+                        d="M19.5 17C19.5 17.8284 18.8284 18.5 18 18.5C17.1716 18.5 16.5 17.8284 16.5 17C16.5 16.1716 17.1716 15.5 18 15.5C18.8284 15.5 19.5 16.1716 19.5 17ZM19.5 17V17.5C19.5 18.3284 20.1716 19 21 19C21.8284 19 22.5 18.3284 22.5 17.5V17C22.5 14.5147 20.4853 12.5 18 12.5C15.5147 12.5 13.5 14.5147 13.5 17C13.5 19.4853 15.5147 21.5 18 21.5"
+                        stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="hidden md:block mr-2">Email: </span>{{ $general[0]->email }}
+            </a>
+
+        </section>
+
+        <!--Logo-->
+        <section class="py-5 flex justify-center">
+            <img src="{{ asset('images/images/Logo-Qallpa.svg') }}" alt="">
+        </section>
+
+        <!--Fomrulario-->
+        <section class="bg-cover pt-6 px-4 text-white md:py-20 md:px-0"
+            style="background-image: url('{{ asset('images/images/Imagen-Hero.png') }}');">
+            <section class="flex-none md:flex md:justify-center md:gap-x-10 md:px-36">
+                <!-- Primer elemtno -->
+                <div class=" flex-none md:flex items-center md:w-3/5">
+                    <div class="text-wrap">
+                        <h2 class="text-4xl md:text-7xl md:leading-24" id="titulo">
+                            Tu Socio Estratégico en Contabilidad y Finanzas
+                        </h2>
+                        <p class="mt-4 text-xl md:text-4xl md:leading-12" id="subtitulo">
+                            En Qallpa Consultores & Asociados SAC, ofrecemos asesoria integral en contabilidad
+                        </p>
+
+                        <section class="py-6 hidden md:block" id="slogan">
+                            <p class="text-xl w-2/3 md:text-2xl mt-18">¡Hablmeos! recibe una consulta gratuita.</p>
+                        </section>
+                    </div>
+                </div>
+
+
+                <!-- El segundo elemento -->
+                <div class="md:w-2/5  px-0 md:px-16 lg:px-8">
+                    <div class="bg-white mt-8 p-5 rounded-2xl md:mt-0 md:p-6 md:*:rounded-4xl " id="fomulario">
+                        <h2 class="text-4xl lg:text-3xl text-black pb-2">¿Que servicio <span
+                                class="text-verdeo">contable</span>
+                            necesitas?
+                        </h2>
+
+                        <form id="dataWhatsapp">
+                            @csrf
+                            <div class="mt-5 grid grid-cols-4 gap-2 md:gap-4">
+
+                                <div class="col-span-4 mt-4 lg:mt-0">
+                                    <div class="relative">
+                                        <input type="text" id="full_name" name="full_name"
+                                            class="
+        peer
+        w-full
+        rounded-lg
+        bg-white
+        px-3
+        py-4
+        text-base
+        text-gray-900
+        outline
+        outline-1
+        outline-gray-300
+        -outline-offset-1
+        transition-all
+        duration-200
+        placeholder-transparent
+        focus:outline-none
+        focus:-outline-offset-2
+        focus:outline-verdeo
+        focus:border-green-400
+        focus:ring-0
+        md:py-4
+      "
+                                            placeholder="Nombre completo" />
+                                        <label for="full_name"
+                                            class="
+        absolute
+        left-3
+        -top-3
+        bg-white
+        px-1
+        text-sm
+        text-verdeo
+        transition-all
+        duration-200
+        peer-placeholder-shown:top-1/2
+        peer-placeholder-shown:-translate-y-1/2
+        peer-placeholder-shown:text-sm
+        peer-placeholder-shown:text-gray-500
+        peer-focus:-top-1
+        peer-focus:text-sm
+        peer-focus:text-verdeo
+      ">
+                                            Nombre completo<span class="text-verdeo">*</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 mt-4 lg:mt-0">
+
+                                    <div class=" relative">
+                                        <select id="country_code" name="country_code" required
+                                            class="
+                      select_landing
+                      peer
+                      block
+                      w-full
+                      rounded-lg
+                      bg-white
+                      px-3
+                      py-4
+                      text-base
+                      text-gray-900
+                      outline-1
+                      -outline-offset-1 
+                      outline-gray-300 
+                      
+                      focus:outline-2
+                      focus:-outline-offset-2 
+                      focus:outline-verdeo
+                      focus:border-green-400
+                      sm:text-sm/6
+                      md:py-10
+                      ">
+                                            <option selected></option>
+                                            <option value="US">+51</option>
+                                            <option value="CA">+57</option>
+                                            <option value="FR">+58</option>
+                                            <option value="DE">+16</option>
+                                        </select>
+
+                                        <label for="country_code"
+                                            class="
+                          text-xs
+                          peer-valid:-top-2
+                          text-verdeo absolute left-2 top-2 bg-white px-1 transition-all">Codigo
+                                            del País*
+                                        </label>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-span-2 mt-4 lg:mt-0">
+                                    <div class=" relative">
+                                        <input type="text" name="phone" id="phone" placeholder=" "
+                                            autocomplete="given-name"
+                                            class="
+                      peer
+        w-full
+        rounded-lg
+        bg-white
+        px-3
+        py-4
+        text-base
+        text-gray-900
+        outline
+        outline-1
+        outline-gray-300
+        -outline-offset-1
+        transition-all
+        duration-200
+        placeholder-transparent
+        focus:outline-none
+        focus:-outline-offset-2
+        focus:outline-verdeo
+        focus:border-green-400
+        focus:ring-0
+        md:py-4
+                      ">
+
+                                        <label for="phone"
+                                            class="
+                      absolute
+        left-3
+        -top-3
+        bg-white
+        px-1
+        text-sm
+        text-verdeo
+        transition-all
+        duration-200
+        peer-placeholder-shown:top-1/2
+        peer-placeholder-shown:-translate-y-1/2
+        peer-placeholder-shown:text-sm
+        peer-placeholder-shown:text-gray-500
+        peer-focus:-top-1
+        peer-focus:text-sm
+        peer-focus:text-verdeo">Teléfono*</label>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-span-4 mt-4 lg:mt-0">
+                                    <div class=" relative">
+                                        <input type="text" name="email" id="email" placeholder=" "
+                                            autocomplete="given-name"
+                                            class="
+                      peer
+        w-full
+        rounded-lg
+        bg-white
+        px-3
+        py-4
+        text-base
+        text-gray-900
+        outline
+        outline-1
+        outline-gray-300
+        -outline-offset-1
+        transition-all
+        duration-200
+        placeholder-transparent
+        focus:outline-none
+        focus:-outline-offset-2
+        focus:outline-verdeo
+        focus:border-green-400
+        focus:ring-0
+        md:py-4
+                      ">
+
+                                        <label for="email"
+                                            class="
+                    absolute
+        left-3
+        -top-3
+        bg-white
+        px-1
+        text-sm
+        text-verdeo
+        transition-all
+        duration-200
+        peer-placeholder-shown:top-1/2
+        peer-placeholder-shown:-translate-y-1/2
+        peer-placeholder-shown:text-sm
+        peer-placeholder-shown:text-gray-500
+        peer-focus:-top-1
+        peer-focus:text-sm
+        peer-focus:text-verdeo">Correo
+                                            electrónico*</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-4 mt-4 lg:mt-0">
+                                    <div class=" relative">
+                                        <input type="text" name="ruc" id="ruc" placeholder=" "
+                                            autocomplete="given-name"
+                                            class="
+                     peer
+        w-full
+        rounded-lg
+        bg-white
+        px-3
+        py-4
+        text-base
+        text-gray-900
+        outline
+        outline-1
+        outline-gray-300
+        -outline-offset-1
+        transition-all
+        duration-200
+        placeholder-transparent
+        focus:outline-none
+        focus:-outline-offset-2
+        focus:outline-verdeo
+        focus:border-green-400
+        focus:ring-0
+        md:py-4
+                      ">
+
+                                        <label for="ruc"
+                                            class="
+                      absolute
+        left-3
+        -top-3
+        bg-white
+        px-1
+        text-sm
+        text-verdeo
+        transition-all
+        duration-200
+        peer-placeholder-shown:top-1/2
+        peer-placeholder-shown:-translate-y-1/2
+        peer-placeholder-shown:text-sm
+        peer-placeholder-shown:text-gray-500
+        peer-focus:-top-1
+        peer-focus:text-sm
+        peer-focus:text-verdeo">RUC
+                                            de la empresa*</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-4 mt-4 lg:mt-0 ">
+
+                                    <div class=" relative">
+                                        <select id="service_product" name="service_product"
+                                            class="
+                      peer
+        w-full
+        rounded-lg
+        bg-white
+        px-3
+        py-4
+        text-base
+        text-gray-900
+        outline
+        outline-1
+        outline-gray-300
+        -outline-offset-1
+        transition-all
+        duration-200
+        placeholder-transparent
+        focus:outline-none
+        focus:-outline-offset-2
+        focus:outline-verdeo
+        focus:border-green-400
+        focus:ring-0
+        md:py-4">
+
+                                            <option value="Emprendedor Persona Natural (NRUS)">Emprendedor Persona Natural
+                                                (NRUS)</option>
+                                            <option value="Persona Natural o Jurídica (Paquete Básico - RMT)">Persona
+                                                Natural o Jurídica (Paquete Básico - RMT)</option>
+                                            <option
+                                                value="Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta — RER)
+">
+                                                Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta — RER)
+                                            </option>
+                                            <option
+                                                value="Persona Natural o Jurídica (Régimen General — Empresas Grandes)">
+                                                Persona Natural o Jurídica (Régimen General — Empresas Grandes)</option>
+                                            <option value="Persona Natural o Jurídica (MYPE - Empresas Medianas)">Persona
+                                                Natural o Jurídica (MYPE - Empresas Medianas)</option>
+                                        </select>
+
+                                        <label for="service_product"
+                                            class="
+                         absolute
+        left-3
+        -top-3
+        bg-white
+        px-1
+        text-sm
+        text-verdeo
+        transition-all
+        duration-200
+        peer-placeholder-shown:top-1/2
+        peer-placeholder-shown:-translate-y-1/2
+        peer-placeholder-shown:text-sm
+        peer-placeholder-shown:text-gray-500
+        peer-focus:-top-1
+        peer-focus:text-sm
+        peer-focus:text-verdeo">Tipo
+                                            de Servicio*
+                                        </label>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-span-4 mt-4 lg:mt-0">
+                                    <button type="submit"
+                                        class="w-full py-4 bg-verdeo text-white block rounded-xl text-center">Enviar
+                                        solicitud</button>
+                                </div>
+
                             </div>
+                        </form>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="py-6 md:hidden">
+                <p class="text-center text-xl w-2/3 mx-auto">¡Hablmeos! recibe una consulta gratuita.</p>
+            </section>
+
+        </section>
+
+        <section class="py-6 px-6 mt-6">
+            <p class="text-4xl text-center leading-9 md:text-6xl md:leading-16 md:w-2/3 md:mx-auto">Más que Números: <br>
+                <span class="text-verdeo">Beneficios</span> que Impulsan tu Negocio
+            </p>
+        </section>
+
+        <!--Seccion sliders Benenficios-->
+        <div class="w-4/5 lg:w-full mx-auto">
+
+            <!-- primer swipper -->
+            <section class="md:w-full md:p-x-180 mt-20">
+                <div class="swiper numbers_swepper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide md:px-16">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Cumplimiento 100% normativo.png') }}"
+                                    alt="Cumplimiento 100% normativo" class="mx-auto h-24 w-24 object-cover">
+                                <h2 class="mt-8 text-3xl">Cumplimiento 100% normativo</h2>
+                                <p class="mt-3 text-xl px-6 leading-6">
+                                    Evita sanciones y mantén tu contabilidad en regla connuestro asesoramiento.
+                                </p>
+                            </section>
                         </div>
-                        <div class="flex flex-col p-2 justify-center items-start" data-aos="fade-down">
-                            <h2 class="text-[#1B4146] text-base xl:text-lg 2xl:text-xl font-Montserrat_Regular">
-                                Haz tu consulta
-                            </h2>
-                            <p class="text-[#1B4146] text-base xl:text-lg 2xl:text-xl font-Montserrat_Bold">
-                                (+51) 945 064 691
+
+                        <div class="swiper-slide md:px-16">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Optimización de impuestos.png') }}"
+                                    alt="Optimización de impuestos" class="mx-auto h-24 w-24 object-cover">
+                                <h2 class="mt-8 text-3xl">Optimización de impuestos</h2>
+                                <p class="mt-3 text-xl px-6 leading-6">
+                                    Paga solo lo necesario con una planificación fiscal eficiente y estratégica.
+                                </p>
+                            </section>
+                        </div>
+
+                        <div class="swiper-slide md:px-16">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Acompañamiento personalizado.png') }}"
+                                    alt="Acompañamiento personalizado" class="mx-auto h-24 w-24 object-cover">
+                                <h2 class="mt-8 text-3xl">Acompañamiento personalizado</h2>
+                                <p class="mt-3 text-xl px-6 leading-6">
+                                    Atención especializada según tu tipo de empresa y necesidades específicas.
+                                </p>
+                            </section>
+                        </div>
+
+                        <div class="swiper-slide md:px-16">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Decisiones financieras seguras.png') }}"
+                                    alt="Decisiones financieras seguras" class="mx-auto h-24 w-24 object-cover">
+                                <h2 class="mt-8 text-3xl">Decisiones financieras seguras</h2>
+                                <p class="mt-3 text-xl px-6 leading-6">
+                                    Obtén estados contables claros y detallados para tomar mejores decisiones.
+                                </p>
+                            </section>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+
+                </div>
+
+                <!-- If we need pagination -->
+                <section class="mt-14">
+                    <div class="swiper-pagination-numbers text-center"></div>
+                </section>
+
+        </div>
+        </section>
+        <!--Seccion Servicios-->
+
+        <section class="mt-10 py-6 px-2  md:p-32 overflow-x-hidden "
+            style="background: linear-gradient(0deg, rgba(237, 252, 245, 0.20) 0%, #EDFCF5 100%);">
+            <h2 class="text-3xl -tracking-tighter md:text-6xl md:w-8/12 text-[#1C1F33]">
+                Soluciones Contables Tributarias y Laborables para <span class="text-verdeo">Impulsar tu Negocio</span>
+            </h2>
+            <p class="mt-8 text-xl leading-6 lg:leading-7 md:w-8/12 text-[#323653]">
+                Deja la contabilidad en nuestras manos y enfócate en lo que mejor sabes hacer: hacer crecer tu empresa. Con
+                nuestros servicios, tendrás tranquilidad financiera, cumplimiento normativo y optimización fiscal
+                garantizada.
+            </p>
+
+            <div class="lg:hidden">
+                <div class="swiper service_swepper mt-8  ">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Emprendedor Persona Natural (NRUS).png') }}"
+                                    alt="Emprendedor Persona Natural (NRUS)" class="mx-auto w-full h-72 object-cover ">
+                            </section>
+                            <section class="w-70 mx-auto mt-8">
+                                <h2 class="text-4xl">Emprendedor Persona Natural (NRUS)</h2>
+                                <p class="text-xl mt-3">Contabilidad simplificada para negocios con ingresos de hasta
+                                    S/8,000 mensuales.</p>
+                            </section>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Persona Natural o Jurídica (Paquete Básico – RMT).png') }}"
+                                    alt="Persona Natural o Jurídica (Paquete Básico – RMT)"
+                                    class="mx-auto w-full h-72 object-cover ">
+                            </section>
+                            <section class="w-70 mx-auto mt-8">
+                                <h2 class="text-4xl">Persona Natural o Jurídica (Paquete Básico – RMT)</h2>
+                                <p class="text-xl mt-3">Gestión contable y tributaria para PYMEs, incluye libros
+                                    electrónicos e impuestos.</p>
+                            </section>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta – RER).png') }}"
+                                    alt="Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta – RER)"
+                                    class="mx-auto w-full h-72 object-cover ">
+                            </section>
+                            <section class="w-70 mx-auto mt-8">
+                                <h2 class="text-4xl">Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta –
+                                    RER)</h2>
+                                <p class="text-xl mt-3">Soluciones contables avanzadas, gestión de planillas y cumplimiento
+                                    fiscal.</p>
+                            </section>
+                        </div>
+                        <div class="swiper-slide">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Persona Natural o Jurídica (Régimen General – Empresas Grandes).png') }}"
+                                    alt="Persona Natural o Jurídica (Régimen General – Empresas Grandes)"
+                                    class="mx-auto w-full h-72 object-cover ">
+                            </section>
+                            <section class="w-70 mx-auto mt-8">
+                                <h2 class="text-4xl">Persona Natural o Jurídica (Régimen General – Empresas Grandes)</h2>
+                                <p class="text-xl mt-3">Análisis financiero detallado, estrategias fiscales y auditoría
+                                    contable.</p>
+                            </section>
+                        </div>
+                        <div class="swiper-slide">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Persona Natural o Jurídica (MYPE – Empresas Medianas).png') }}"
+                                    alt="Persona Natural o Jurídica (MYPE – Empresas Medianas)"
+                                    class="mx-auto w-full h-72 object-cover ">
+                            </section>
+                            <section class="w-70 mx-auto mt-8">
+                                <h2 class="text-4xl">Persona Natural o Jurídica (MYPE – Empresas Medianas)</h2>
+                                <p class="text-xl mt-3">Análisis financiero detallado, estrategias fiscales y auditoría
+                                    contable.</p>
+                            </section>
+                        </div>
+
+
+                    </div>
+
+                    <!-- If we need navigation buttons -->
+                    <section class="mt-14 flex justify-end gap-x-5">
+                        <div class="service-prev rounded-full bg-verdec text-verdeo p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+
+                        </div>
+                        <div class="service-next rounded-full bg-verdec text-verdeo p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto hidden lg:block mt-16">
+                <!-- Primera fila - 3 tarjetas -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- Tarjeta 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img src="{{ asset('images/images/Emprendedor Persona Natural (NRUS).png') }}"
+                            alt="Emprendedor Persona Natural (NRUS)" class="w-full h-96 object-cover">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-medium text-[#1C1F33] mb-2">Emprendedor Persona Natural (NRUS)</h2>
+                            <p class="text-[#323653]">
+                                Contabilidad simplificada para negocios con ingresos de hasta S/8,000 mensuales.
                             </p>
                         </div>
                     </div>
-    
-                    <div class="col-span-2 flex flex-col justify-end items-center relative order-2 lg:order-1 ">
-                        <div class="relative w-[700px]" data-aos="fade-down">
-                            <img class="h-80 md:h-[300px] w-auto object-contain object-left absolute right-20 4xs:left-0 bottom-0" src="{{asset('images/img/texturaAP.png')}}"
-                                onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            <img class="h-96 md:h-[650px] w-full object-contain  object-center relative z-10" src="{{asset('images/img/Dra.png')}}"
-                                onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
+
+                    <!-- Tarjeta 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img src="{{ asset('images/images/Persona Natural o Jurídica (Paquete Básico – RMT).png') }}"
+                            alt="Persona Natural o Jurídica (Paquete Básico – RMT)" class="w-full h-96 object-cover">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-medium text-[#1C1F33] mb-2">Persona Natural o Jurídica (Paquete
+                                Básico –
+                                RMT)</h2>
+                            <p class="text-[#323653]">
+                                Gestión contable y tributaria para PYMEs, incluye libros electrónicos e impuestos.
+                            </p>
                         </div>
                     </div>
-    
-                    <div class="col-span-2 lg:col-span-1 flex flex-col sm:flex-row gap-5 sm:gap-10 lg:flex-col justify-around items-start lg:items-end order-1 lg:order-2">
-                        
-                        <div class="grid grid-cols-1 gap-2 xl:gap-4 z-20 min-w-[320px] xl:w-[340px] 2xl:w-[400px] 3xl:w-[450px] max-w-[600px] animate-jump-out animate-once animate-duration-[2000ms] animate-reverse">
-                            <div id="form-1" class="bg-[#F2F5FC] p-6 2xl:p-8 rounded-3xl flex flex-col gap-4">
-                                <h2 class="text-[#1B4146] text-base sm:text-lg 2xl:text-xl font-Montserrat_SemiBold">
-                                    Solicita información ahora vía WhatsApp
-                                </h2>
-                                <form class="space-y-2 4xs:space-y-4 2xl:space-y-4" id="dataWhatsapp">
-                                  @csrf
-                                  <input type="text" name="full_name" placeholder="Nombre Completo" 
-                                      class="border-green-500 border-0  focus:!border-0 focus:!ring-0 focus:!ring-transparent
-                                      placeholder:text-[#AAC3E6] text-[#97adcb] font-Montserrat_Regular w-full py-3 px-2 rounded-3xl text-base 2xl:text-xl  placeholder-opacity-25 font-light  bg-white">
-                        
-                                  <input type="email" name="email" 
-                                      placeholder="Correo Electrónico"
-                                      class="border-green-500 border-0 focus:!border-0 focus:!ring-0 focus:!ring-transparent
-                                      placeholder:text-[#AAC3E6] text-[#97adcb] font-Montserrat_Regular w-full py-3 px-2 rounded-3xl text-base 2xl:text-xl  placeholder-opacity-25 font-light  bg-white">
-                        
-                                  <input type="text" name="phone" placeholder="Teléfono"
-                                      class="border-green-500 border-0 focus:!border-0 focus:!ring-0 focus:!ring-transparent
-                                      placeholder:text-[#AAC3E6] text-[#97adcb] font-Montserrat_Regular w-full py-3 px-2 rounded-3xl text-base 2xl:text-xl  placeholder-opacity-25 font-light  bg-white">
-                                  
-                                  <input type="hidden" name="client_width" id="anchodispositivo">
-                                  <input type="hidden" name="client_height" id="largodispositivo">
-                                  <input type="hidden" name="client_latitude" id="latitud">
-                                  <input type="hidden" name="client_longitude" id="longitud">
-                                  <input type="hidden" name="client_system" id="sistema">
-                                  <input type="hidden" id="tipo" placeholder="tipo" name="source" value="WSP - Landing" />
-                                     
-                        
-                                  <button type="submit"
-                                      class="font-Montserrat_Medium text-white py-3 px-2 bg-[#1E7B82] justify-center items-center rounded-3xl inline-flex text-base 2xl:text-xl w-full">
-                                      <span>Hablar con la Dra. Adriana Pezo</span>
-                                  </button>
-                                </form>
-                                
-                            </div>
-                        </div>
 
+                    <!-- Tarjeta 3 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img src="{{ asset('images/images/Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta – RER).png') }}"
+                            alt="Persona Natural o Jurídica (Régimen Especial
+                                de Impuesto a la Renta – RER)"
+                            class="w-full h-96 object-cover ">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-medium text-[#1C1F33] mb-2">Persona Natural o Jurídica (Régimen
+                                Especial
+                                de Impuesto a la Renta – RER)</h2>
+                            <p class="text-[#323653]">
+                                Soluciones contables avanzadas, gestión de planillas y cumplimiento fiscal.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-        </section>
+                <!-- Segunda fila - 2 tarjetas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Tarjeta 4 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img src="{{ asset('images/images/Persona Natural o Jurídica (Régimen General – Empresas Grandes).png') }}"
+                            alt="Persona Natural o Jurídica (Régimen General –
+                                Empresas Grandes)"
+                            class="w-full h-96 object-cover">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-medium text-[#1C1F33] mb-2">Persona Natural o Jurídica (Régimen
+                                General
+                                –
+                                Empresas Grandes)</h2>
+                            <p class="text-[#323653]">
+                                Análisis financiero detallado, estrategias fiscales y auditoría contable.
+                            </p>
+                        </div>
+                    </div>
 
-        <section  class="w-full items-start px-[5%] py-8 bg-[#6486CD] text-[#252222] bg-cover bg-center" style="background-image: url({{ asset('images/img/textura_beneficios.png') }})">
-            <div class="grid grid-cols-1" data-aos="fade-down">
-                <div>
-                    <div class="swiper beneficios">
-                        <div class="swiper-wrapper">
-                            
-                            <div class="swiper-slide">
-                                <div class="flex flex-col gap-4 items-start min-w-[240px]">
-                                    <div class="bg-white rounded-full w-14 h-14 flex flex-row justify-center items-center">
-                                        <img  class="object-contain w-8" loading="lazy" src="{{asset('images/svg/personas.svg')}}" onerror="this.onerror=null;this.src='{{ asset('images/imagen/noimagen.jpg') }}';"/>
-                                    </div>
-                                    <div class="flex flex-col text-white">
-                                        <h2 class="text-lg xl:text-xl font-Montserrat_SemiBold !leading-none max-w-xs">Atención personalizada y cercana</h2>
-                                        <p class="mt-2 text-base font-Montserrat_Regular leading-5">
-                                            Evaluación y tratamiento adaptado a cada niño y adolescente.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="flex flex-col gap-4 items-start min-w-[240px]">
-                                    <div class="bg-white rounded-full w-14 h-14 flex flex-row justify-center items-center">
-                                        <img  class="object-contain w-8" loading="lazy" src="{{asset('images/svg/manos.svg')}}" onerror="this.onerror=null;this.src='{{ asset('images/imagen/noimagen.jpg') }}';"/>
-                                    </div>
-                                    <div class="flex flex-col text-white">
-                                        <h2 class="text-lg xl:text-xl font-Montserrat_SemiBold !leading-none max-w-xs">Atención personalizada y cercana</h2>
-                                        <p class="mt-2 text-base font-Montserrat_Regular leading-5">
-                                            Acompañamiento profesional para fortalecer su bienestar mental.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="flex flex-col gap-4 items-start min-w-[240px]">
-                                    <div class="bg-white rounded-full w-14 h-14 flex flex-row justify-center items-center">
-                                        <img  class="object-contain w-8" loading="lazy" src="{{asset('images/svg/quiz.svg')}}" onerror="this.onerror=null;this.src='{{ asset('images/imagen/noimagen.jpg') }}';"/>
-                                    </div>
-                                    <div class="flex flex-col text-white">
-                                        <h2 class="text-lg xl:text-xl font-Montserrat_SemiBold !leading-none max-w-xs">Atención personalizada y cercana</h2>
-                                        <p class="mt-2 text-base font-Montserrat_Regular leading-5">
-                                            Métodos actualizados en psiquiatría infantil y adolescente.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
+                    <!-- Tarjeta 5 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img src="{{ asset('images/images/Persona Natural o Jurídica (MYPE – Empresas Medianas).png') }}"
+                            alt="Persona Natural o Jurídica (MYPE – Empresas
+                                Medianas)"
+                            class="w-full h-96 object-cover">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-medium text-[#1C1F33] mb-2">Persona Natural o Jurídica (MYPE –
+                                Empresas
+                                Medianas)</h2>
+                            <p class="text-[#323653]">
+                                Análisis financiero detallado, estrategias fiscales y auditoría contable.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+
         </section>
 
-        <section class="px-[5%] py-10 lg:py-20 bg-white" id="productoscarrusel">
-            <div class="flex flex-col gap-8 md:gap-12" >
-                
-                <div data-aos="fade-down" class='flex flex-col lg:flex-row lg:justify-between items-start justify-center gap-5'>
-                  <div class='flex flex-col gap-3 max-w-lg'>
-                      <h1 class="tracking-tighter text-4xl 2xl:text-5xl font-Montserrat_Bold font-bold text-[#09262A] leading-none">
-                        Nuestros servicios
-                      </h1>
-                      
-                      {{-- <p class="text-base font-Montserrat_Regular tracking-normal text-[#1B4146]">
-                        Praesent in commodo lectus, vitae dictum nulla. Sed nec finibus quam. Integer ultricies dolor ut magna.
-                      </p> --}}
-                  </div>
-                  <div class="flex flex-col">
-                    <div class="bg-[#F2F5FC] flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 p-6 rounded-3xl items-center">
-                      <p class="text-[#506DC0] text-base lg:text-lg font-Montserrat_SemiBold max-w-[300px]">
-                        Si crees que necesita apoyo,
-                        estoy aquí para ayudarte
-                      </p>
-                      <a target="_blank"  href="https://api.whatsapp.com/send?phone={{ $general[0]->whatsapp }}&text={{ $general[0]->mensaje_whatsapp }}"
-                        class="w-auto bg-[#6486CD] px-6 py-4 rounded-3xl text-white font-Montserrat_Medium">
-                        Hablar con un experto
-                      </a>
-                      
-                    </div>
-                  </div>
-                </div>
-
-                <div  class="grilla grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-y-5 gap-x-8 hidden sm:grid">
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_1.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Autismo (TEA)</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_2.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">TDAH (trastorno por déficit de atención e hiperactividad)</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_3.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Impulsividad, agresividad en niños y adolescentes</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_4.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos de conducta en la infancia y la adolescencia</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_5.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos del estado de ánimo en la infancia y la adolescencia</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_6.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos de ansiedad</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_7.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Transtornos obsesivo compulsivo</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_8.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos de la conducta alimentaria: anorexia, bulimia</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_9.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Transtornos relacionados con traumas y factores de estrés</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_10.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos del sueño-vigilia</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_11.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Depresión en niños y adolescentes</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-down" class="servicio flex flex-col group relative">
-                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_12.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                            <div class="flex flex-row w-full justify-center items-center">
-                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos del aprendizaje</h2>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                Agendar cita
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex sm:hidden">
-                    <div class="w-full" data-aos="fade-down">
-                        <div class="swiper servicios">
-                            <div class="swiper-wrapper">
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_1.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Autismo (TEA)</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_2.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">TDAH (trastorno por déficit de atención e hiperactividad)</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_3.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Impulsividad, agresividad en niños y adolescentes</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_4.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos de conducta en la infancia y la adolescencia</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_5.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos del estado de ánimo en la infancia y la adolescencia</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_6.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos de ansiedad</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_7.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Transtornos obsesivo compulsivo</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_8.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos de la conducta alimentaria: anorexia, bulimia</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_9.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Transtornos relacionados con traumas y factores de estrés</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_10.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos del sueño-vigilia</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_11.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Depresión en niños y adolescentes</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <div class="servicio flex flex-col group relative">
-                                        <div class="bg-[#F2F5F7] rounded-2xl flex flex-row">
-                                            <div class="max-w-full flex flex-col items-center justify-center w-full">
-                                                <img class="w-full h-full object-contain object-bottom "  src="{{ asset('images/img/servicio_12.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-center items-center gap-1 mt-3">
-                                            <div class="flex flex-row w-full justify-center items-center">
-                                                <h2 class="font-Montserrat_SemiBold text-center text-[#09262A] leading-none text-base xl:text-lg 2xl:text-xl nombreServicio">Trastornos del aprendizaje</h2>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-1 mt-2 inset-0 items-end justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                            <a target="_blank" class="text-white cursor-pointer text-sm md:text-base py-2 px-6 w-full max-w-[200px] bg-[#1E7B82] rounded-2xl font-Montserrat_Medium text-center">
-                                                Agendar cita
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex flex-row justify-start ml-10">
-                                <div class="swiper-servicios !flex justify-center py-3 mt-3 "></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <section class="bg-verdeo p-6">
+            <p class="text-center text-white leading-normal text-md">Nota : El costo de los servicios está sujeta a
+                modificación, previa reunión con el cliente.</p>
         </section>
-        
-        @if ($testimonie->count() > 0)
-            <section class="bg-center bg-cover" style="background-image: url({{ asset('images/img/textura_testimonios.png') }})">
-                <div data-aos="fade-down" class="grid grid-cols-1 md:grid-cols-2 w-full gap-12 px-[5%]">
-        
-                <div class="flex flex-col justify-end items-center px-0 lg:px-[5%] order-2 md:order-1">
-                    <div class="w-full max-h-[560px] 2xl:max-h-[1000px] flex flex-col justify-end -mt-20  2xl:mt-0">
-                        <img class="w-full h-full object-contain object-bottom"  src="{{ asset('images/img/testimonios_AP.png')}}" onerror="this.onerror=null;this.src='{{ asset('images/img/noimagen.jpg') }}';" />
-                    </div>
-                </div>
-        
-                <div class="flex flex-col justify-center gap-5 text-textWhite lg:pr-[5%] py-10 xl:py-12 order-1 md:order-2">
-                    <h1 class="tracking-tighter text-2xl  lg:text-4xl 2xl:text-5xl font-Montserrat_Bold font-bold text-[#09262A] leading-none">
-                        Lo que dicen las familias
-                    </h1>
-                    <div class="w-full">
-                        <div class="swiper testimonios">
-                            <div class="swiper-wrapper">
-                                @foreach ($testimonie as $testimony)
-                                    <div class="swiper-slide">
-                                        <div class="bg-[#FFFFFF] relative p-5 lg:p-8 gap-3 flex flex-col rounded-xl h-auto">
-                                            <div>
-                                                <p class="text-[#1B4146] text-base lg:text-[17px] 2xl:text-xl font-Montserrat_Regular">
-                                                    {{$testimony->testimonie}}
-                                                </p>
-                                            </div>
-                                            <div class="flex flex-row gap-3 items-center">
-                                                <img class="w-12 h-12 rounded-full object-contain"  src="{{ asset($testimony->ocupation)}}" />
-                                                <div class="flex flex-col gap-0">
-                                                    <h3 class="text-[#09262A] font-Montserrat_SemiBold leading-none">{{$testimony->name}}</h3>
-                                                    <span class="text-[#1B4146] text-sm font-Montserrat_Regular leading-none">{{$testimony->email}}</span>
-                                                </div>
-                                            
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="flex flex-row justify-start ml-10">
-                                <div class="swiper-testimonios !flex justify-center py-3 mt-3 "></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-col p-2 justify-center items-end">
-                        <h2 class="text-[#1B4146] text-base xl:text-lg 2xl:text-xl font-Montserrat_Regular">
-                            Haz tu consulta
-                        </h2>
-                        <p class="text-[#1B4146] text-base xl:text-lg 2xl:text-xl font-Montserrat_Bold">
-                            (+51) 945 064 691
+
+        <footer class="bg-morado px-4 pt-8 lg:pt-0 text-white">
+            <section class="flex flex-col lg:flex-row justify-between max-w-7xl mx-auto lg:h-96 items-center">
+                <div class="lg:w-7/12 ">
+                    <div class="max-w-md ">
+                        <img src="{{ asset('images/images/Logo-Qallpa-Footer.svg') }}" alt="">
+
+                        <p class="mt-6 -tracking-tighter leading-6 text-md">
+                            En Qallpa Consultores & Asociados SAC, ofrecemos asesoría integral en contabilidad, tributación
+                            y gestión laboral para emprendedores y empresas en Perú.
                         </p>
                     </div>
                 </div>
 
+                <div class="w-full lg:w-3/12">
+                    <h3 class="mt-14 text-lg font-bold lg:mt-0">
+                        Políticas
+                    </h3>
+                    <ul class="flex flex-col gap-2">
+                        <li>
+                            <a href="#" class="open-modal" data-type="privacy"
+                                data-content="{{ $politicDev->content ?? 'No hay contenido disponible' }}">
+                                Políticas de privacidad
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="open-modal" data-type="changes"
+                                data-content="{{ $polyticChange->content ?? 'No hay contenido disponible' }}">
+                                Políticas de cambio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="open-modal" data-type="terms"
+                                data-content="{{ $termsAndCondicitions->content ?? 'No hay contenido disponible' }}">
+                                Términos y condiciones
+                            </a>
+                        </li>
+
+                    </ul>
                 </div>
-            </section>    
-        @endif    
 
-    </main>
+                <div class="w-full lg:w-2/12">
+                    <h3 class="mt-8 text-lg font-bold lg:mt-0">
+                        Contacto
+                    </h3>
+                    <ul class="flex flex-col gap-2">
+                        <li><a href="tel:{{ $general[0]->cellphone }}">{{ $general[0]->cellphone }}</a></li>
+                        <li><a href="mailto:{{ $general[0]->email }}">{{ $general[0]->email }}</a></li>
+                        <li></li>
+                    </ul>
+                </div>
 
 
-@section('scripts_importados')
-    <script>
-        const servicios = document.querySelectorAll('.grilla .servicio');
 
-        // Añade event listeners para el hover
-        servicios.forEach(servicio => {
-            servicio.addEventListener('mouseenter', () => {
-                servicio.style.transform = 'scale(1.05)'; // Aplica el zoom
-                servicio.style.transition = 'transform 0.3s ease'; // Suaviza la transición
-            });
+            </section>
+            <div class="lg:flex mt-8 lg:mt-0 justify-between border-t border-white max-w-7xl mx-auto">
+                <p class=" mt-8 text-sm font-medium lg:text-base ">
+                    Copyright © 2025 Qallpa Consultores. Reservados todos los derechos.
+                </p>
 
-            servicio.addEventListener('mouseleave', () => {
-                servicio.style.transform = 'scale(1)'; // Vuelve al tamaño original
-            });
-        });
-    </script>
+                <section class=" flex gap-x-3 py-3  lg:py-8">
+                    @if ($general[0]->facebook)
+                        <a href="{{ $general[0]->facebook }}" target="_blank" rel="noopener noreferrer"
+                            class="cursor-pointer"><img src="{{ asset('images/images/face.svg') }}" alt=""></a>
+                    @endif
 
-    <script>
-        document.getElementById('scrollButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-            smoothScroll('#productoscarrusel', 800); // 800ms de duración del desplazamiento
-        });
+                    @if ($general[0]->twitter)
+                        <a href="{{ $general[0]->twitter }}" target="_blank" rel="noopener noreferrer"
+                            class="cursor-pointer"><img src="{{ asset('images/images/twitter.svg') }}"
+                                alt=""></a>
+                    @endif
 
-        document.getElementById('irawsp').addEventListener('click', function(event) {
-            event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-            smoothScroll('#bannerprincipal', 800); // 800ms de duración del desplazamiento
-        });
+                    @if ($general[0]->linkedin)
+                        <a href="{{ $general[0]->linkedin }}" target="_blank" rel="noopener noreferrer"
+                            class="cursor-pointer"><img src="{{ asset('images/images/in.svg') }}" alt=""></a>
+                    @endif
+                    @if ($general[0]->instagram)
+                        <a href="{{ $general[0]->instagram }}" target="_blank" rel="noopener noreferrer"
+                            class="cursor-pointer"><img src="{{ asset('images/images/ins.svg') }}" alt=""></a>
+                    @endif
 
-        // Función para desplazamiento suave
-        function smoothScroll(target, duration) {
-            const targetElement = document.querySelector(target);
-            const targetPosition = targetElement.getBoundingClientRect().top;
-            const startPosition = window.pageYOffset;
-            let startTime = null;
+                </section>
+            </div>
 
-            function animation(currentTime) {
-                if (startTime === null) startTime = currentTime;
-                const timeElapsed = currentTime - startTime;
-                const run = easeInOutQuad(timeElapsed, startPosition, targetPosition, duration);
-                window.scrollTo(0, run);
-                if (timeElapsed < duration) requestAnimationFrame(animation);
-            }
+            <!-- Modal Términos y Condiciones -->
+            <div class="fixed inset-0 z-50 hidden" id="modalTerms" aria-modal="true" role="dialog">
+                <!-- Fondo oscuro -->
+                <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity -z-10" id="modalBackdrop"></div>
 
-            // Función de easing para suavizar el desplazamiento
-            function easeInOutQuad(t, b, c, d) {
-                t /= d / 2;
-                if (t < 1) return c / 2 * t * t + b;
-                t--;
-                return -c / 2 * (t * (t - 2) - 1) + b;
-            }
-
-            requestAnimationFrame(animation);
-        }
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-    
-        const whatsappNumber = {{ $general[0]->whatsapp }};
-        const servicios = document.querySelectorAll(".servicio");
-   
-                servicios.forEach((servicio) => {
-                    
-                    const nombreServicio = servicio.querySelector(".nombreServicio").textContent;
-                    const mensaje = encodeURIComponent(`Estoy interesad@ en el servicio de tratamiento: *${nombreServicio}*`);
-                    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${mensaje}`;
-                    const botonAgendar = servicio.querySelector("a");
-                    botonAgendar.setAttribute("href", whatsappLink);
-                });
-        });
-    </script>
-
-    <script>   
-        $('#modalformcotizar').submit(function(event) {
-            event.preventDefault();
-            let formDataArray = $(this).serializeArray();
-
-            if (!validarTelefono($('#phone').val())) {
-                return;
-            };
-
-            Swal.fire({
-
-                title: 'Procesando información',
-                html: `Enviando...
-                    <p class=" text-text12">Revise su correo de Span</p>
-                            <div class="max-w-2xl mx-auto overflow-hidden flex justify-center items-center mt-4 ">
-                                <div role="status">
-                                    <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                                    </svg>
-                                    
+                <!-- Contenido del modal centrado -->
+                <div
+                    class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0 z-50">
+                    <!-- Contenedor del modal -->
+                    <div
+                        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 ">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div class="sm:flex sm:items-start">
+                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                    <h3 class="text-2xl leading-6 font-bold text-gray-900 mb-4" id="modalTitle">
+                                        Términos y Condiciones
+                                    </h3>
+                                    <div class="mt-2 max-h-[70vh] overflow-y-auto">
+                                        <div id="modalContent" class="prose">
+                                            <!-- Contenido dinámico se cargará aquí -->
+                                        </div>
+                                    </div>
                                 </div>
-                                
                             </div>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                            <button type="button"
+                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                id="closeModal">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            `,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+        </footer>
 
-           
-            $.ajax({
-                url: '{{ route('cotizar') }}',
-                method: 'POST',
-                data: formDataArray,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').val() // Incluye el token CSRF
-                },
-                success: function(response) {
-                
-                    Swal.close();
 
-                    Swal.fire({
-                        title: response.message,
-                        icon: "success",
-                    });
 
-                    $('#modalformcotizar')[0].reset();
-                },
-                error: function(error) {
-                    Swal.close();
-                    const obj = error.responseJSON.message;
-                    const keys = Object.keys(error.responseJSON.message);
-                    let flag = false;
-                    keys.forEach(key => {
-                        if (!flag) {
-                            const e = obj[key];
-                            Swal.fire({
-                                title: error.message,
-                                text: "Ha ocurrido un error",
-                                icon: "warning",
-                            });
-                            flag = true; 
-                        }
-                    });
-                }
-            });
-        })
-    </script>
 
-    <script>
-        $(document).ready(function () {
-            $(document).on('click', '.btn-cotizar', function () {
-                const id = $(this).data('id');
+        </body>
 
-                $.ajax({
-                    url: '{{ route('obtenerdata') }}',
-                    method: 'POST',
-                    data: {
-                        id: id, 
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-                    },
-                    success: function(response) {
-                        $('#nombreplan').text(response.producto.producto);
-                        $('#caracteristicas').text(response.producto.extract);
-                        $('#name').val(response.producto.producto);
-                        $('#extract').val(response.producto.extract);
-                    },
-                    error: function(error) {
-                        console.error('Error:', error);
+    @section('scripts_importados')
+        <script>
+            // Manejo del modal
+            $(document).ready(function() {
+                const modal = $('#modalTerms');
+                const modalContent = $('#modalContent');
+                const modalTitle = $('#modalTitle');
+
+                // Abrir modal
+                $('.open-modal').on('click', function(e) {
+                    e.preventDefault();
+
+                    const type = $(this).data('type');
+                    const content = $(this).data('content');
+
+                    // Configurar título según el tipo
+                    let title = '';
+                    switch (type) {
+                        case 'privacy':
+                            title = 'Políticas de Privacidad';
+                            break;
+                        case 'changes':
+                            title = 'Políticas de Cambio';
+                            break;
+                        case 'terms':
+                            title = 'Términos y Condiciones';
+                            break;
+                    }
+
+                    modalTitle.text(title);
+                    modalContent.html(content);
+                    modal.removeClass('hidden');
+                });
+
+                // Cerrar modal
+                $('#closeModal').on('click', function() {
+                    modal.addClass('hidden');
+                });
+
+                // Cerrar al hacer clic fuera del contenido
+                modal.on('click', function(e) {
+                    if ($(e.target).is(modal)) {
+                        modal.addClass('hidden');
                     }
                 });
-
-
-                $(`#modalcotizar`).modal({
-                    show: true,
-                    fadeDuration: 400,
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                //para el seelct 2
+                $('.select_landing').select2({
+                    dropdownCssClass: 'bg-orange-800',
+                    selectionCssClass: 'peer block w-full rounded-lg bg-white px-3 py-4 text-base text-gray-900 outline-1 -outline-offset-1  outline-gray-300 focus:outline-2 focus:-outline-offset-2  focus:outline-verdeo sm:text-sm/6 !h-14 md:!py-6',
+                    //minimumResultsForSearch: -1
                 });
+
+                //using Timeline
+                const tl = gsap.timeline({
+                        repeat: -1,
+                        loop: true,
+                        repeatDelay: 6
+                    })
+                    .from("#titulo", {
+                        x: -332,
+                        duration: 1,
+                        ease: "bounce.out",
+                        duration: 1,
+                        opacity: 0
+                    })
+                    .from("#subtitulo", {
+                        x: -330,
+                        duration: 1,
+                        ease: "bounce.out",
+                        duration: 2,
+                        opacity: 0
+                    })
+                    .from("#slogan", {
+                        x: -330,
+                        duration: 1,
+                        ease: "bounce.out",
+                        duration: 2,
+                        opacity: 0
+                    });
+
+                gsap.from("#fomulario", {
+                    scale: 1.4,
+                    ease: "bounce.out",
+                    duration: 2,
+                    opacity: 0
+                });
+
+
+                //llamamoe el jSon con los codigos
+
+
+
+
+
+                // Cargar códigos de país desde el JSON
+                $.getJSON('/libs/prefijocelular.json', function(data) {
+                    const $select = $('#country_code');
+                    $select.empty().append('<option selected></option>'); // Opción vacía inicial
+
+                    // Añadir cada país con su bandera
+                    data.forEach(function(item) {
+                        const isoCode = item.isoCode.ISO1.toLowerCase(); // Ej: "af" para Afganistán
+                        const banderaUrl =
+                            `https://flagcdn.com/24x18/${isoCode}.png`; // Imagen de 24x18px
+
+                        $select.append(`
+                <option 
+                    value="${item.realCode}" 
+                    data-iso="${isoCode}" 
+                    data-beautycode="${item.beautyCode}"
+                >
+                    ${item.beautyCode} | ${item.country}
+                </option>
+            `);
+                    });
+                    $select.val('51').trigger('change');
+
+                    // Inicializar Select2 con banderas
+                    $select.select2({
+
+                        templateResult: formatOption, // Cómo se ven las opciones en el dropdown
+                        templateSelection: formatOption, // Cómo se ve la selección actual
+                        escapeMarkup: function(m) {
+                            return m;
+                        }, // Permite HTML en las opciones
+                        dropdownCssClass: 'select2-with-flags',
+                        selectionCssClass: 'peer block w-full rounded-lg bg-white px-3 py-4 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-verdeo sm:text-sm/6 !h-14 md:!py-4'
+                    });
+                });
+
+                // Función para mostrar banderas en Select2
+                function formatOption(option) {
+                    if (!option.id) return option.text; // Opción vacía
+
+                    const isoCode = $(option.element).data('iso');
+                    const beautyCode = $(option.element).data('beautycode');
+                    const countryName = option.text.split('|')[1]?.trim() || '';
+
+                    // Si es la selección actual (cuando el dropdown está cerrado)
+                    if (option.selected) {
+                        return $(`
+                <span class="flex items-center">
+                    <img src="https://flagcdn.com/24x18/${isoCode}.png" class="w-6 h-4 mr-2" alt="${countryName}">
+                    <span>${beautyCode}</span>
+                </span>
+            `);
+                    }
+
+                    // Opciones del dropdown
+                    return $(`
+            <span class="flex items-center">
+                <img src="https://flagcdn.com/24x18/${isoCode}.png" class="w-6 h-4 mr-2" alt="${countryName}">
+                <span>${beautyCode}</span>
+            </span>
+        `);
+                }
+
+                // Resto de tu código (Select2, GSAP, Swiper, etc.)
+                $('.select_landing').select2({
+                    dropdownCssClass: 'bg-orange-800',
+                    selectionCssClass: 'peer block w-full rounded-lg bg-white px-3 py-4 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-verdeo sm:text-sm/6 !h-14 md:!py-6',
+                });
+
+                // Animaciones GSAP y Swiper...
+
+
             });
 
-            $(document).on('click', '.botoncanales', function () {
-                const id = $(this).data('id');
-                $(`#modaldetalleplan-${id}`).modal({
-                    show: true,
-                    fadeDuration: 400,
-                });
-            });
-        });
-    </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const items = document.querySelectorAll('.swiper-slide .flex');
-            const mainImage = document.getElementById('imagen-zona');
+            const swiper = new Swiper('.numbers_swepper', {
+                // Optional parameters
+                //centeredSlides:true,
+                //spaceBetween:100,
+                loop: true,
+                autoplay: true,
+                duration: .64,
 
-            items.forEach(item => {
-                item.addEventListener('click', function () {
-                    const newImageSrc = this.getAttribute('data-image');
-                    
-                    // Aplicar efecto fade-out
-                    mainImage.style.opacity = 0;
-
-                    // Cambiar la imagen después del fade-out
-                    setTimeout(() => {
-                        mainImage.src = newImageSrc;
-
-                        // Aplicar efecto fade-in
-                        mainImage.style.opacity = 1;
-                    }, 300); // Coincide con la duración de la transición CSS
-                });
-            });
-        });
-
-        var swiper = new Swiper(".slider", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            centeredSlides: false,
-            initialSlide: 0,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                },
-            },
-            pagination: {
-                el: ".slider-pagination",
-                clickable: true,
-            },
-        });
-
-
-
-        var swiper = new Swiper(".ofertas", {
-            slidesPerView: 2.2,
-            spaceBetween: 10,
-            centeredSlides: false,
-            initialSlide: 0,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            scrollbar: {
-                el: '.swiper-scrollbar',
-                draggable: true,
-            },
-            breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                   
-                },
-                768: {
-                    slidesPerView: 1.2,
-
-                  
-                },
-                850: {
-                    slidesPerView: 1.3,
-
-                  
-                },
-                920: {
-                    slidesPerView: 1.4,
-
-                  
-                },
-                1024: {
-                    slidesPerView: 1.6,
-                  
-                },
-                1280: {
-                    slidesPerView: 2.2,
-                    spaceBetween: 20,
-                  
-                },
-                1300: {
-                    slidesPerView: 2.2,
-                    spaceBetween: 20,
-                  
-                },
-                1500: {
-                    slidesPerView: 2.4,
-                    spaceBetween: 20,
-                  
-                },
-                1600: {
-                    slidesPerView: 2.9,
-                    spaceBetween: 20,
-                  
-                },
-            },
-        });
-
-        var swiper = new Swiper(".servicios", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            centeredSlides: false,
-            initialSlide: 0,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            scrollbar: {
-                el: '.swiper-scrollbar',
-                draggable: true,
-            },
-            breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                   
-                },
-            },
-            pagination: {
-                    el: ".swiper-servicios",
+                // If we need pagination
+                pagination: {
+                    el: '.swiper-pagination-numbers',
                     clickable: true,
-                    dynamicBullets: true,
-            },
-        });
+                },
 
-        var swiper = new Swiper(".lugares", {
-            slidesPerView: 3,
-            direction: 'vertical',
-            spaceBetween: 10,
-            centeredSlides: false,
-            initialSlide: 0,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            scrollbar: {
-                el: '.swiper-scrollbar',
-                draggable: true,
-            },
-        });
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
 
-        var swiper = new Swiper(".slider_blog", {
-            slidesPerView: 3,
-            spaceBetween: 30,
-            centeredSlides: false,
-            initialSlide: 0,
-            grabCursor: true,
-            loop: true,
-             autoplay: {
-                delay: 2500, 
-                disableOnInteraction: true,
-            },
-            breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                   
-                },
-                750: {
-                    slidesPerView: 2,
-                   
-                },
-                1250: {
-                    slidesPerView: 3,
-                   
-                },
-            },
-            pagination: {
-                el: ".swiper-pagination_productos",
-                clickable: true,
-            },
-        });
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                    },
+                    1024: {
+                        slidesPerView: 3,
 
-        var swiper = new Swiper(".categorias", {
-            slidesPerView: 4,
-            spaceBetween: 15,
-            centeredSlides: false,
-            initialSlide: 0,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            navigation: true,
-            breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                   
+                    },
                 },
-                768: {
-                    slidesPerView: 2,
-                  
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 30,
-                },
-                1500: {
-                    slidesPerView: 4,
-                    spaceBetween: 50,
-                },
-            },
-        });
 
-
-        var swiper = new Swiper(".beneficios", {
-            slidesPerView: 3,
-            spaceBetween: 30,
-            centeredSlides: false,
-            initialSlide: 0,
-            loop: true,
-            autoplay: {
-                delay: 2000, 
-                disableOnInteraction: true,
-            },
-            breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                   
+                // And if we need scrollbar
+                scrollbar: {
+                    el: '.swiper-scrollbar',
                 },
-                600: {
-                    slidesPerView: 2,
-                   
-                },
-                950: {
-                    slidesPerView: 3,
-                    spaceBetween: 50,
-                },
-                1600: {
-                    slidesPerView: 4,
-                    spaceBetween: 60,
-                },
-            },
-            pagination: {
-                el: ".swiper-pagination_productos",
-                clickable: true,
-            },
-        });
-
-
-        var swiper = new Swiper(".testimonios", {
-            slidesPerView: 1,
-            spaceBetween: 15,
-            loop: true,
-            centeredSlides: false,
-            pagination: {
-                    el: ".swiper-testimonios",
-                    clickable: true,
-                    dynamicBullets: true,
-            },
-        });
-    </script>
-
-    <script>
-        // Obtener información del navegador y del sistema operativo
-        const platform = navigator.platform;
-        document.getElementById('sistema').value = platform;
-
-        // Obtener la geolocalización del usuario (si se permite)
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                document.getElementById('latitud').value = position.coords.latitude;
-                document.getElementById('longitud').value = position.coords.longitude;
             });
-        }
 
-        // Obtener la página de referencia
-        const referrer = document.referrer;
-        document.getElementById('llegade').value = referrer;
+            const service_swiper = new Swiper('.service_swepper', {
+                // Optional parameters
+                loop: true,
 
+                // If we need pagination
+                pagination: {
+                    el: '.swiper-pagination',
+                },
 
-        // Obtener la resolución de la pantalla
-        const screenWidth = window.screen.width;
-        const screenHeight = window.screen.height;
-        document.getElementById('anchodispositivo').value = screenWidth;
-        document.getElementById('largodispositivo').value = screenHeight;
-    </script>
-@stop
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.service-next',
+                    prevEl: '.service-prev',
+                },
+
+                // And if we need scrollbar
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                },
+            });
+        </script>
+
+    @stop
 
 @stop

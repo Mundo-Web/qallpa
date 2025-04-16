@@ -16,16 +16,19 @@ class MessageController extends Controller
     public function index()
     {
         //
-        $mensajes = Message::where('status', '=', 1)
-                            ->where(function($query) {
-                                $query->where('source', '=', 'Inicio')
-                                    ->orWhere('source', '=', 'Contacto')
-                                    ->orWhere('source', '=', 'WSP - Landing')
-                                    ->orWhere('source', '=', 'WSP - Productos Químicos');
-                            })
-                            ->orderBy('created_at', 'DESC')
+        $mensajes = Message::orderBy('created_at', 'DESC')
                             ->get();
-        return view('pages.message.index', compact('mensajes'));
+                                // Cargar el JSON de países
+    $paisesJson = file_get_contents(public_path('libs/prefijocelular.json'));
+    $paises = json_decode($paisesJson, true);
+    
+    // Crear un array asociativo código => país
+    $codigosPaises = [];
+    foreach ($paises as $pais) {
+        $codigosPaises[$pais['beautyCode']] = $pais['country'];
+    }
+
+        return view('pages.message.index', compact('mensajes','codigosPaises'));
     
         
     }

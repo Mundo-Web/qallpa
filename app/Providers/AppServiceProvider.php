@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\General;
 use App\Models\Message;
+use App\Models\PolyticsChange;
 use App\Models\PolyticsCondition;
 use App\Models\TermsAndCondition;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -34,11 +35,12 @@ class AppServiceProvider extends ServiceProvider
             // Pasar los datos a la vista
             $politicDev = PolyticsCondition::first();
             $termsAndCondicitions = TermsAndCondition::first();
+            $polyticChange = PolyticsChange::first();
             // $view->with('general', $general)
             //     ->with('politicDev', $politicDev)
             //     ->with('termsAndCondicitions', $termsAndCondicitions);
 
-            $view->with(['general' => $general, 'politicDev' => $politicDev, 'termsAndCondicitions' => $termsAndCondicitions]);
+            $view->with(['general' => $general, 'politicDev' => $politicDev, 'termsAndCondicitions' => $termsAndCondicitions, 'polyticChange' => $polyticChange]);
         });
 
         View::composer('components.public.header', function ($view) {
@@ -61,23 +63,12 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('components.app.sidebar', function ($view) {
             // Obtener los datos del footer
-            $mensajes = Message::where('is_read', '!=', 1 )->where('status', '!=', 0)
-                                    ->where(function($query) {
-                                        $query->where('source', '=', 'Inicio')
-                                            ->orWhere('source', '=', 'Contacto')
-                                            ->orWhere('source', '=', 'WSP - Landing');
-                                    })->count(); 
-            $mensajeslanding = Message::where('is_read', '!=', 1 )->where('status', '!=', 0)
-                                        ->whereNotIn('source',  ['Inicio', 'Contacto', 'Producto', 'WSP - Productos Químicos','WSP - Tratamiento de Agua'])
-                                        ->count();
-
-            $mensajesproduct = Message::where('is_read', '!=', 1 )->where('status', '!=', 0)
-                                        ->where('source', '=', 'Producto')
-                                        ->count();                           
+            $mensajes = Message::where('is_read', '!=', 1 )
+                                    ->count(); 
+                                 
             // Pasar los datos a la vista
-            $view->with('mensajes', $mensajes)
-                 ->with('mensajeslanding', $mensajeslanding)
-                 ->with('mensajesproduct', $mensajesproduct);
+            $view->with('mensajes', $mensajes);
+               
         });
 
          PaginationPaginator::useTailwind();   
