@@ -548,7 +548,7 @@
         </section>
         <!--Seccion Servicios-->
 
-        <section class="mt-10 py-6 px-2  md:p-32 overflow-x-hidden "
+        <section class="mt-10 py-6 px-4  md:p-32 overflow-x-hidden "
             style="background: linear-gradient(0deg, rgba(237, 252, 245, 0.20) 0%, #EDFCF5 100%);">
             <h2 class="text-3xl -tracking-tighter md:text-6xl md:w-8/12 text-[#1C1F33]">
                 Soluciones Contables Tributarias y Laborables para <span class="text-verdeo">Impulsar tu Negocio</span>
