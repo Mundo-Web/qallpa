@@ -490,7 +490,7 @@
                                     alt="Cumplimiento 100% normativo" class="mx-auto h-24 w-24 object-cover">
                                 <h2 class="mt-8 text-3xl">Cumplimiento 100% normativo</h2>
                                 <p class="mt-3 text-xl px-6 leading-6">
-                                    Evita sanciones y mantén tu contabilidad en regla connuestro asesoramiento.
+                                    Evita sanciones y mantén tu contabilidad en regla con nuestro asesoramiento.
                                 </p>
                             </section>
                         </div>
@@ -604,24 +604,25 @@
                         </div>
                         <div class="swiper-slide">
                             <section class="text-center">
-                                <img src="{{ asset('images/images/Persona Natural o Jurídica (Régimen General – Empresas Grandes).png') }}"
-                                    alt="Persona Natural o Jurídica (Régimen General – Empresas Grandes)"
-                                    class="mx-auto w-full h-72 object-cover ">
-                            </section>
-                            <section class="w-70 mx-auto mt-8">
-                                <h2 class="text-4xl">Persona Natural o Jurídica (Régimen General – Empresas Grandes)</h2>
-                                <p class="text-xl mt-3">Análisis financiero detallado, estrategias fiscales y auditoría
-                                    contable.</p>
-                            </section>
-                        </div>
-                        <div class="swiper-slide">
-                            <section class="text-center">
                                 <img src="{{ asset('images/images/Persona Natural o Jurídica (MYPE – Empresas Medianas).png') }}"
                                     alt="Persona Natural o Jurídica (MYPE – Empresas Medianas)"
                                     class="mx-auto w-full h-72 object-cover ">
                             </section>
                             <section class="w-70 mx-auto mt-8">
                                 <h2 class="text-4xl">Persona Natural o Jurídica (MYPE – Empresas Medianas)</h2>
+                                <p class="text-xl mt-3">Análisis financiero detallado, estrategias fiscales y auditoría
+                                    contable.</p>
+                            </section>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <section class="text-center">
+                                <img src="{{ asset('images/images/Persona Natural o Jurídica (Régimen General – Empresas Grandes).png') }}"
+                                    alt="Persona Natural o Jurídica (Régimen General – Empresas Grandes)"
+                                    class="mx-auto w-full h-72 object-cover ">
+                            </section>
+                            <section class="w-70 mx-auto mt-8">
+                                <h2 class="text-4xl">Persona Natural o Jurídica (Régimen General – Empresas Grandes)</h2>
                                 <p class="text-xl mt-3">Análisis financiero detallado, estrategias fiscales y auditoría
                                     contable.</p>
                             </section>
@@ -700,6 +701,21 @@
 
                 <!-- Segunda fila - 2 tarjetas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Tarjeta 5 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img src="{{ asset('images/images/Persona Natural o Jurídica (MYPE – Empresas Medianas).png') }}"
+                            alt="Persona Natural o Jurídica (MYPE – Empresas
+                                Medianas)"
+                            class="w-full h-96 object-cover">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-medium text-[#1C1F33] mb-2">Persona Natural o Jurídica (MYPE –
+                                Empresas
+                                Medianas)</h2>
+                            <p class="text-[#323653]">
+                                Análisis financiero detallado, estrategias fiscales y auditoría contable.
+                            </p>
+                        </div>
+                    </div>
                     <!-- Tarjeta 4 -->
                     <div class="bg-white rounded-lg overflow-hidden shadow-md">
                         <img src="{{ asset('images/images/Persona Natural o Jurídica (Régimen General – Empresas Grandes).png') }}"
@@ -717,28 +733,14 @@
                         </div>
                     </div>
 
-                    <!-- Tarjeta 5 -->
-                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
-                        <img src="{{ asset('images/images/Persona Natural o Jurídica (MYPE – Empresas Medianas).png') }}"
-                            alt="Persona Natural o Jurídica (MYPE – Empresas
-                                Medianas)"
-                            class="w-full h-96 object-cover">
-                        <div class="p-6">
-                            <h2 class="text-2xl font-medium text-[#1C1F33] mb-2">Persona Natural o Jurídica (MYPE –
-                                Empresas
-                                Medianas)</h2>
-                            <p class="text-[#323653]">
-                                Análisis financiero detallado, estrategias fiscales y auditoría contable.
-                            </p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
         </section>
 
         <section class="bg-verdeo p-6">
-            <p class="text-center text-white leading-normal text-md">Nota : El costo de los servicios está sujeta a
+            <p class="text-center text-white leading-normal text-md">Nota : El costo de los servicios está sujeto a
                 modificación, previa reunión con el cliente.</p>
         </section>
 
