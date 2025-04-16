@@ -944,6 +944,7 @@ class IndexController extends Controller
 
             return response()->json(['message' => 'Redirigiendo a Whatsapp']);
         } catch (ValidationException $e) {
+             \Log::error($e);
             return response()->json(['message' => $e->validator->errors()], 400);
         }
     }
@@ -1015,6 +1016,7 @@ class IndexController extends Controller
            
             return response()->json(['message' => 'Mensaje enviado con exito']);
         } catch (ValidationException $e) {
+        
             return response()->json(['message' => $e->validator->errors()], 400);
         }
     }
@@ -1033,322 +1035,183 @@ class IndexController extends Controller
     private function envioCorreoAdmin($data)
     {
         $generales = General::first();
+        if (!$generales || !$generales->email) {
+             \Log::error('No se encontró email admin en la tabla generales');
+            return false;
+        }
+    
         $emailadmin = $generales->email;
         $appUrl = env('APP_URL');
         $name = 'Administrador';
         $mensaje = "Nueva solicitud de contacto - QALLPA";
-        $mail = EmailConfig::config($name, $mensaje);
-
+        
         try {
-          $mail->addAddress($emailadmin);
-          $mail->Body = '<html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Dimensión Lider</title>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-              rel="stylesheet"
-            />
-            <style>
-              * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-              }
-            </style>
-          </head>
-          <body>
-            <main>
-              <table
-                style="
-                  width: 600px;
-                  margin: 0 auto;
-                  text-align: center;
-                  background-image: url(' .
-                        $appUrl .
-                        '/mail/fondo.png);
-                  background-repeat: no-repeat;
-                  background-position: center;
-                  background-size: cover;
-                "
-              >
-                <thead>
-                  <tr>
-                    <th
-                      style="
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 40px;
-                        padding: 0 200px;
-                      "
-                    >
-                        <a href="' .
-                        $appUrl .
-                        '" target="_blank" style="text-align:center" ><img src="' .
-                        $appUrl .
-                        '/mail/logo.png" alt="hpi" /></a>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <p
-                        style="
-                          color: #6486CD;
-                          font-size: 40px;
-                          line-height: normal;
-                          font-family: Google Sans;
-                          font-weight: bold;
-                        "
-                      >
-                        ¡Gracias
-                        <span style="color: #354273">por escribirnos!</span>
-                      </p>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <p
-                        style="
-                          color: #354273;
-                          font-weight: 500;
-                          font-size: 18px;
-                          text-align: center;
-                          width: 500px;
-                          margin: 0 auto;
-                          padding: 20px 0 5px 0;
-                          font-family: Google Sans;
-                        "
-                      >
-                        <span style="display: block">Hola ' . $name . '</span>
-                      </p>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>
-                      <p
-                        style="
-                          color: #354273;
-                          font-weight: 500;
-                          font-size: 18px;
-                          text-align: center;
-                          width: 500px;
-                          margin: 0 auto;
-                          padding: 0px 10px 5px 0px;
-                          font-family: Google Sans;
-                        "
-                      >
-                        Tienes una nueva solicitud de contacto.
-                      </p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a
-                         target="_blank"
-                        href="' .
-                        $appUrl .
-                        '"
-                        style="
-                          text-decoration: none;
-                          background-color: #6486CD;
-                          color: #ffffff;
-                          padding: 13px 20px;
-                          display: inline-flex;
-                          justify-content: center;
-                          border-radius: 32px;
-                          align-items: center;
-                          gap: 10px;
-                          font-weight: 600;
-                          font-family: Google Sans;
-                          font-size: 16px;
-                          margin-bottom: 350px;
-                        "
-                      >
-                        <span>Visita nuestra web</span>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </main>
-          </body>
-        </html>
-          ';
-          $mail->isHTML(true);
-          $mail->send();
-        } catch (\Throwable $th) {
-          //throw $th;
+            $mail = EmailConfig::config($name, $mensaje);
+            $mail->addAddress($emailadmin);
+            $mail->isHTML(true);
+            
+            // Versión texto plano (alternativa para clientes de email que no soportan HTML)
+            $mail->AltBody = "Nueva solicitud de contacto:\n\nNombre: {$data['full_name']}\nEmail: {$data['email']}\nMensaje: {$data['message']}";
+            
+            // HTML del correo (versión simplificada y más robusta)
+            $mail->Body = $this->buildAdminEmailHtml($data, $appUrl, $name);
+            
+            // Configuración adicional importante
+            $mail->SMTPKeepAlive = true;
+            $mail->Encoding = 'base64';
+            
+            if (!$mail->send()) {
+                \Log::error('Error PHPMailer: '.$mail->ErrorInfo);
+                throw new \Exception('Error al enviar correo: '.$mail->ErrorInfo);
+            }
+            
+            return true;
+        } catch (\Exception $e) {
+            \Log::error('Error en envioCorreoAdmin: '.$e->getMessage());
+            return false;
         }
+    }
+    
+    private function buildAdminEmailHtml($data, $appUrl, $name)
+    {
+        return <<<HTML
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nuevo Contacto - QALLPA</title>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .logo { max-width: 200px; }
+            h1 { color: #323653; }
+            .info { margin: 15px 0; }
+            .btn { 
+                display: inline-block; 
+                padding: 10px 20px; 
+                background: #323653; 
+                color: white; 
+                text-decoration: none; 
+                border-radius: 5px; 
+                margin: 20px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <a href="{$appUrl}" target="_blank">
+                    <img src="{$appUrl}/mail/Logo-Qallpa-White.svg" alt="QALLPA" class="logo">
+                </a>
+            </div>
+            
+            <h1>Nueva solicitud de contacto</h1>
+            
+            <div class="info">
+                <p><strong>Nombre:</strong> {$data['full_name']}</p>
+                <p><strong>Email:</strong> {$data['email']}</p>
+                <p><strong>Mensaje:</strong> {$data['message']}</p>
+            </div>
+            
+            <a href="{$appUrl}" class="btn" target="_blank">Ver en el sistema</a>
+        </div>
+    </body>
+    </html>
+    HTML;
     }
 
     private function envioCorreoCliente($data)
     { 
-       
-        $name = $data['full_name'];
-        $appUrl = env('APP_URL');
-        $mensaje = 'Gracias por comunicarte con QALLPA, en breve nos pondremos en contacto contigo.';
-        $mail = EmailConfig::config($name, $mensaje);
-        // $baseUrl = 'https://' . $_SERVER['HTTP_HOST'] . '/mail';
-        // $baseUrllink = 'https://' . $_SERVER['HTTP_HOST'] . '/';
-
         try {
-          $mail->addAddress($data['email']);
-          $mail->Body = '<html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Dimensión Lider</title>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-              rel="stylesheet"
-            />
-            <style>
-              * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-              }
-            </style>
-          </head>
-          <body>
-            <main>
-              <table
-                style="
-                  width: 600px;
-                  margin: 0 auto;
-                  text-align: center;
-                  background-image: url(' .
-                        $appUrl .
-                        '/mail/fondo.png);
-                  background-repeat: no-repeat;
-                  background-position: center;
-                  background-size: cover;
-                "
-              >
-                <thead>
-                  <tr>
-                    <th
-                      style="
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 40px;
-                        padding: 0 200px;
-                      "
-                    >
-                        <a href="' .
-                        $appUrl .
-                        '" target="_blank" style="text-align:center" ><img src="' .
-                        $appUrl .
-                        '/mail/logo.png" alt="hpi" /></a>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <p
-                        style="
-                          color: #6486CD;
-                          font-size: 40px;
-                          line-height: normal;
-                          font-family: Google Sans;
-                          font-weight: bold;
-                        "
-                      >
-                        ¡Gracias
-                        <span style="color: #354273">por escribirnos!</span>
-                      </p>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <p
-                        style="
-                          color: #354273;
-                          font-weight: 500;
-                          font-size: 18px;
-                          text-align: center;
-                          width: 500px;
-                          margin: 0 auto;
-                          padding: 20px 0 5px 0;
-                          font-family: Google Sans;
-                        "
-                      >
-                        <span style="display: block">Hola ' . $name . '</span>
-                      </p>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>
-                      <p
-                        style="
-                          color: #354273;
-                          font-weight: 500;
-                          font-size: 18px;
-                          text-align: center;
-                          width: 500px;
-                          margin: 0 auto;
-                          padding: 0px 10px 5px 0px;
-                          font-family: Google Sans;
-                        "
-                      >
-                        En breve estaremos comunicandonos contigo.
-                      </p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a
-                         target="_blank"
-                        href="' .
-                        $appUrl .
-                        '"
-                        style="
-                          text-decoration: none;
-                          background-color: #6486CD;
-                          color: #ffffff;
-                          padding: 13px 20px;
-                          display: inline-flex;
-                          justify-content: center;
-                          border-radius: 32px;
-                          align-items: center;
-                          gap: 10px;
-                          font-weight: 600;
-                          font-family: Google Sans;
-                          font-size: 16px;
-                          margin-bottom: 350px;
-                        "
-                      >
-                        <span>Visita nuestra web</span>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </main>
-          </body>
-        </html>
-          ';
-          $mail->isHTML(true);
-          $mail->send();
-        } catch (\Throwable $th) {
-          //throw $th;
+            $name = $data['full_name'];
+            $appUrl = env('APP_URL');
+            $mensaje = 'Gracias por comunicarte con QALLPA';
+            
+            $mail = EmailConfig::config($name, $mensaje);
+            $mail->addAddress($data['email']);
+            $mail->isHTML(true);
+            
+            // Versión texto plano IMPORTANTE
+            $mail->AltBody = "Hola {$name},\n\nGracias por comunicarte con QALLPA, en breve nos pondremos en contacto contigo.\n\nVisita nuestra web: {$appUrl}";
+            
+            // Construcción más segura del HTML
+            $mail->Body = $this->buildClientEmailHtml($name, $appUrl);
+            
+            // Configuraciones críticas adicionales
+            $mail->Encoding = 'base64';
+            $mail->SMTPKeepAlive = true;
+            $mail->CharSet = 'UTF-8';
+            
+            if (!$mail->send()) {
+                \Log::error('Error PHPMailer al cliente: '.$mail->ErrorInfo);
+                throw new \Exception('Error al enviar: '.$mail->ErrorInfo);
+            }
+            
+            return true;
+        } catch (\Exception $e) {
+            \Log::error('Excepción en envioCorreoCliente: '.$e->getMessage());
+            return false;
         }
+    }
+    
+    private function buildClientEmailHtml($name, $appUrl)
+    {
+        $logoUrl = $appUrl.'/mail/Logo-Qallpa-White.svg';
+        $backgroundUrl = $appUrl.'/mail/fondo.png';
+        
+        return <<<HTML
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gracias por contactarnos</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <style>
+            body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+            .email-container { max-width: 600px; margin: 0 auto; background-image: url('{$backgroundUrl}'); background-size: cover; }
+            .header { padding: 40px 0; text-align: center; }
+            .content { padding: 20px; text-align: center; color: #354273; }
+            .btn {
+                display: inline-block;
+                padding: 13px 20px;
+                background-color: #323653;
+                color: white;
+                text-decoration: none;
+                border-radius: 32px;
+                font-weight: 600;
+                margin: 20px 0;
+            }
+            .title {
+                color: #323653;
+                font-size: 40px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <div class="header">
+                <a href="{$appUrl}" target="_blank">
+                    <img src="{$logoUrl}" alt="QALLPA" style="max-width: 200px;">
+                </a>
+            </div>
+            
+            <div class="content">
+                <h1 class="title">¡Gracias <span style="color: #354273;">por escribirnos!</span></h1>
+                
+                <p style="font-size: 18px; margin-bottom: 10px;">Hola {$name}</p>
+                <p style="font-size: 18px; margin-bottom: 20px;">En breve estaremos comunicándonos contigo.</p>
+                
+                <a href="{$appUrl}" class="btn" target="_blank">Visita nuestra web</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    HTML;
     }
 
     public function procesarCarrito(Request $request)

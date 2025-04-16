@@ -44,6 +44,9 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+
+            'address' => env('MAIL_FROM_ADDRESS', 'hola@qallpa.pe'),
+            'name' => env('MAIL_FROM_NAME', 'Qallpa'),
         ],
 
         'ses' => [

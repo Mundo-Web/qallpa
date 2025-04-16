@@ -3,23 +3,36 @@
 namespace App\Helpers;
 
 use PHPMailer\PHPMailer\PHPMailer;
+use App\Models\General; // Asegúrate de importar tu modelo General
 
 class EmailConfig
 {
-    static function config($name, $mensaje): PHPMailer
+    static function config($name, $mensaje, $fromAddress = null, $fromName = null): PHPMailer
     {
         $mail = new PHPMailer(true);
-        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        
+        // Configuración SMTP (mejor usar config() en lugar de valores hardcodeados)
         $mail->isSMTP();
-        $mail->Host = env('MAIL_HOST');
+        $mail->Host = config('mail.mailers.smtp.host');
         $mail->SMTPAuth = true;
-        $mail->Username = env('MAIL_USERNAME');
-        $mail->Password = env('MAIL_PASSWORD');
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = env('MAIL_PORT');
-        $mail->Subject = '' . $name . ', ' . $mensaje;
+        $mail->Username = config('mail.mailers.smtp.username');
+        $mail->Password = config('mail.mailers.smtp.password');
+        $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
+        $mail->Port = config('mail.mailers.smtp.port');
+        
+        // Asunto y charset
+        $mail->Subject = $name . ', ' . $mensaje;
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        
+        // Configuración dinámica del remitente
+        $fromEmail = $fromAddress ?? General::first()->email ?? config('mail.from.address');
+        $fromName = $fromName ?? General::first()->name ?? config('mail.from.name');
+        
+        $mail->setFrom($fromEmail, $fromName);
+        
+        // Opcional: Configurar reply-to igual que from
+        $mail->addReplyTo($fromEmail, $fromName);
+        
         return $mail;
     }
 }
