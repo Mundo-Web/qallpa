@@ -62,6 +62,7 @@ use App\Models\Microcategory;
 use App\Models\NewsletterSubscriber;
 use App\Models\Price;
 use App\Models\Template;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,6 +137,18 @@ Route::post('/getTotalProductos', [CategoryController::class, 'getTotalProductos
 // Route::get('/terminos-y-condiciones', [IndexController::class, 'TerminosyCondiciones'])->name('terms_condition');
 
 Route::redirect('/register', '/login');
+Route::get('/test-email', function () {
+    try {
+        Mail::raw('Esto es una prueba', function ($message) {
+            $message->to('basiliohinostroza2003bradneve@gmail.com')
+                    ->subject('Correo de prueba desde Laravel');
+        });
+
+        return 'Correo enviado correctamente';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
 
 
 Route::middleware(['auth:sanctum', 'verified', 'can:Admin'])->group(function () {
