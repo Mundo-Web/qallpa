@@ -1178,7 +1178,7 @@ class IndexController extends Controller
                 display: inline-block;
                 padding: 13px 20px;
                 background-color: #323653;
-                color: white;
+                color: #FFFFFF !important;
                 text-decoration: none;
                 border-radius: 32px;
                 font-weight: 600;
