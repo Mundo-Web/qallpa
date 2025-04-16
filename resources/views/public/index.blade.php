@@ -110,11 +110,11 @@
                             Tu Socio Estratégico en Contabilidad y Finanzas
                         </h2>
                         <p class="mt-4 text-xl md:text-4xl md:leading-12" id="subtitulo">
-                            En Qallpa Consultores & Asociados SAC, ofrecemos asesoria integral en contabilidad
+                            En Qallpa Consultores & Asociados SAC, ofrecemos asesoría integral en contabilidad
                         </p>
 
                         <section class="py-6 hidden md:block" id="slogan">
-                            <p class="text-xl w-2/3 md:text-2xl mt-18">¡Hablmeos! recibe una consulta gratuita.</p>
+                            <p class="text-xl w-2/3 md:text-2xl mt-18">¡Hablemos! Recibe una consulta gratuita.</p>
                         </section>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                 <!-- El segundo elemento -->
                 <div class="md:w-2/5  px-0 md:px-16 lg:px-8">
                     <div class="bg-white mt-8 p-5 rounded-2xl md:mt-0 md:p-6 md:*:rounded-4xl " id="fomulario">
-                        <h2 class="text-4xl lg:text-3xl text-black pb-2">¿Que servicio <span
+                        <h2 class="text-4xl lg:text-3xl text-black pb-2">¿Qué servicio <span
                                 class="text-verdeo">contable</span>
                             necesitas?
                         </h2>
@@ -220,7 +220,7 @@
                                             class="
                           text-xs
                           peer-valid:-top-2
-                          text-verdeo absolute left-2 top-2 bg-white px-1 transition-all">Codigo
+                          text-verdeo absolute left-2 top-2 bg-white px-1 transition-all">Código
                                             del País*
                                         </label>
 
@@ -486,7 +486,7 @@
                         <!-- Slides -->
                         <div class="swiper-slide md:px-16">
                             <section class="text-center">
-                                <img src="{{ asset('images/images/Cumplimiento 100% normativo.png') }}"
+                                <img src="{{ asset('images/images/Cumplimiento 100normativo.png') }}"
                                     alt="Cumplimiento 100% normativo" class="mx-auto h-24 w-24 object-cover">
                                 <h2 class="mt-8 text-3xl">Cumplimiento 100% normativo</h2>
                                 <p class="mt-3 text-xl px-6 leading-6">
