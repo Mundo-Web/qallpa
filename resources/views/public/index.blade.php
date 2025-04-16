@@ -55,10 +55,33 @@
             color: #18C991;
 
         }
+
+        /* Para el contenedor principal de Select2 */
+        .select2-container .select2-selection--single,
+        .select2-container .select2-selection--multiple {
+            border-radius: 8px !important;
+
+
+
+        }
+
+        /* Para el dropdown desplegable */
+        .select2-container--open .select2-dropdown {
+            border-radius: 0 0 8px 8px !important;
+        }
+
+        /* Para el foco (cuando está seleccionado) */
+        .select2-container--focus .select2-selection--single,
+        .select2-container--focus .select2-selection--multiple {
+            border-color: #3c8dbc !important;
+            /* Cambia el color del borde al enfocar */
+            box-shadow: 0 0 5px rgba(60, 141, 188, 0.3) !important;
+            /* Opcional: añade sombra */
+        }
     </style>
 
     <main>
-        <div class="absolute top-0 left-0 opacity-70 w-full z-50 hidden ">
+        <div class="absolute top-0 left-0 opacity-70 w-full z-50 hidden  ">
             <img src="{{ asset('images/images/back_d.png') }}" alt="" class="w-full h-auto">
         </div>
         <!--Cintillo superior-->
