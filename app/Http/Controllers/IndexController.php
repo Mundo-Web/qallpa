@@ -1103,7 +1103,7 @@ class IndexController extends Controller
         <div class="container">
             <div class="header">
                 <a href="{$appUrl}" target="_blank">
-                    <img src="{$appUrl}/mail/Logo-Qallpa-White.svg" alt="QALLPA" class="logo">
+                    <img src="{$appUrl}/mail/logo.png" alt="QALLPA" class="logo">
                 </a>
             </div>
             
@@ -1158,7 +1158,7 @@ class IndexController extends Controller
     
     private function buildClientEmailHtml($name, $appUrl)
     {
-        $logoUrl = $appUrl.'/mail/Logo-Qallpa-White.svg';
+        $logoUrl = $appUrl.'/mail/logo.png';
         $backgroundUrl = $appUrl.'/mail/fondo.png';
         
         return <<<HTML
@@ -1173,7 +1173,7 @@ class IndexController extends Controller
             body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
             .email-container { max-width: 600px; margin: 0 auto; background-image: url('{$backgroundUrl}'); background-size: cover; }
             .header { padding: 40px 0; text-align: center; }
-            .content { padding: 20px; text-align: center; color: #354273; }
+            .content { padding: 20px; text-align: center; color:  #FFFFFF !important; }
             .btn {
                 display: inline-block;
                 padding: 13px 20px;
