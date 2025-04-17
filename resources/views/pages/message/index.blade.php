@@ -40,14 +40,14 @@
                                     <div class="text-sm text-gray-500">{{ $item->email }}</div>
                                     <div class="text-sm flex items-center">
                                       
-                                        <span class="flex items-center">
+                                        <span class="flex items-center ml-2">
                                             @php
                                                 // Buscar el país correspondiente al código
                                                 $pais = collect($paises)->firstWhere('beautyCode', $item->country_code);
                                                 $isoCode = $pais['isoCode']['ISO1'] ?? 'us'; // Valor por defecto si no encuentra
                                             @endphp
                                             <span class="fi fi-{{ strtolower($isoCode) }} mr-1"></span>
-                                            {{ $item->country_code }} {{ $item->phone }}
+                                            +{{ $item->country_code }} {{ $item->phone }}
                                         </span>
                                         @if($item->ruc)
                                             | RUC: {{ $item->ruc }}
