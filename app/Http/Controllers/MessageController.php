@@ -93,7 +93,18 @@ class MessageController extends Controller
         $message->is_read = 1; 
         $message->save();
 
-        return view('pages.message.show', compact('message'));
+          
+    // Cargar el JSON de países
+    $paisesJson = file_get_contents(public_path('libs/prefijocelular.json'));
+    $paises = json_decode($paisesJson, true);
+    
+    // Crear un array asociativo código => país
+    $codigosPaises = [];
+    foreach ($paises as $pais) {
+        $codigosPaises[$pais['beautyCode']] = $pais['country'];
+    }
+        
+        return view('pages.message.show', compact('mensajes', 'codigosPaises', 'paises'));
     }
 
 
