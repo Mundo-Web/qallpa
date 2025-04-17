@@ -40,7 +40,7 @@
                                     <div class="text-sm text-gray-500">{{ $item->email }}</div>
                                     <div class="text-sm flex items-center">
                                       
-                                        <span class="flex items-center ml-2">
+                                        <span class="flex items-center mr-2">
                                             @php
                                                 // Buscar el país correspondiente al código
                                                 $pais = collect($paises)->firstWhere('beautyCode', $item->country_code);
