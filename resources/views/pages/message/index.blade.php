@@ -14,13 +14,8 @@
                     <table id="tabladatos" class="display text-lg" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>País</th>
-                                <th>Teléfono</th>
-                                <th>RUC</th>
+                                <th>Contacto</th>
                                 <th>Servicio</th>
-                             
                                 <th>Fecha</th> 
                                 <th class="w-32">Acciones</th>
                             </tr>
@@ -30,31 +25,35 @@
                             @foreach ($mensajes as $item)
                                 <tr>
                                     <td>
-                                        @if ($item->is_read == '0')
-                                            <a href="{{ route('mensajes.show', $item->id) }}"><span class="mr-4"><i
-                                                        class="fa-regular fa-envelope"></i></span><span
-                                                    class="font-bold dark:text-white">{{ $item->full_name }}</span></a>
-                                        @else
-                                            <a href="{{ route('mensajes.show', $item->id) }}"><span class="mr-4"><i
-                                                        class="fa-regular fa-envelope-open"></i></span><span>{{ $item->full_name }}</span></a>
-                                        @endif
-
+                                        <div class="flex flex-col">
+                                            @if ($item->is_read == '0')
+                                                <a href="{{ route('mensajes.show', $item->id) }}" class="font-bold dark:text-white">
+                                                    <span class="mr-2"><i class="fa-regular fa-envelope"></i></span>
+                                                    {{ $item->full_name }}
+                                                </a>
+                                            @else
+                                                <a href="{{ route('mensajes.show', $item->id) }}">
+                                                    <span class="mr-2"><i class="fa-regular fa-envelope-open"></i></span>
+                                                    {{ $item->full_name }}
+                                                </a>
+                                            @endif
+                                            <div class="text-sm text-gray-500">{{ $item->email }}</div>
+                                            <div class="text-sm">
+                                                <span class="font-medium">{{ $codigosPaises[$item->country_code] ?? $item->country_code }}</span> | 
+                                                Tel: {{ $item->phone }}
+                                                @if($item->ruc)
+                                                    | RUC: {{ $item->ruc }}
+                                                @endif
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td>{{ $item->email }}</td>
-                                   
-
-                                    <td>{{ $codigosPaises[$item->country_code] ?? $item->country_code }}</td>
-                                    <td>{{ $item->phone }}</td>
-                                    <td>{{ $item->ruc }}</td>
                                     <td>{{ $item->service_product }}</td>
-                                   
                                     <td>{{ $item->created_at->format('d-m-Y') }}</td>
                                     
                                     <td class="flex flex-row items-center justify-center">
                                         <button method="POST" onclick="borrarmensaje({{ $item->id }})"
                                             class="bg-red-600 p-2 rounded text-white"><i
                                                 class="fa-regular fa-trash-can"></i></button>
-                                        <!--a href="" class="bg-yellow-400 p-2 rounded text-white mr-6"><i class="fa-regular fa-pen-to-square"></i></a-->
                                     </td>
                                 </tr>
                             @endforeach
@@ -62,16 +61,10 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                            <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>País</th>
-                                <th>Teléfono</th>
-                                <th>RUC</th>
+                                <th>Contacto</th>
                                 <th>Servicio</th>
-                             
                                 <th>Fecha</th> 
                                 <th>Acciones</th>
-                                
                             </tr>
                         </tfoot>
                     </table>
@@ -135,8 +128,6 @@
             });
 
         })
-
-
 
         function borrarmensaje(id) {
             console.log(id)
