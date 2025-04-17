@@ -39,7 +39,7 @@
                                     @endif
                                     <div class="text-sm text-gray-500">{{ $item->email }}</div>
                                     <div class="text-sm flex items-center">
-                                        <span class="font-medium mr-2">{{ $codigosPaises[$item->country_code] ?? $item->country_code }}</span> | 
+                                      
                                         <span class="flex items-center">
                                             @php
                                                 // Buscar el país correspondiente al código
