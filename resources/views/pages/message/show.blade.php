@@ -10,19 +10,72 @@
             <div class="p-3">
 
                 <div class="p-6">
-                    <p class="font-bold">Nombre completo:</p>
-                    <p> {{ $message->full_name }} </p>
-                    <br>
-                    <p class="font-bold">Correo:</p>
-                    <p> {{ $message->email }} </p>
-                    <br>
-                    <p class="font-bold ">Teléfono:</p>
-                    <p class="mb-5"> {{ $message->phone }} </p>
-                    {{-- <br> --}}
-                    {{-- <p class="font-bold">Mensaje:</p>
-                    <p class="mb-5">
-                        {{ $message->message }}
-                    </p> --}}
+                  
+                <!-- Información del Contacto -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-3 text-slate-800 dark:text-slate-100">Información del Contacto</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">Nombre completo</p>
+                                <p class="dark:text-white">{{ $message->full_name }}</p>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">Correo electrónico</p>
+                                <p class="dark:text-white">
+                                    <a href="mailto:{{ $message->email }}" class="text-blue-600 dark:text-blue-400 hover:underline">
+                                        {{ $message->email }}
+                                    </a>
+                                </p>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">Teléfono</p>
+                                <p class="dark:text-white flex items-center">
+                                    @php
+                                        $pais = collect($paises)->firstWhere('beautyCode', $message->country_code);
+                                        $isoCode = $pais['isoCode']['ISO1'] ?? 'us';
+                                    @endphp
+                                    <span class="fi fi-{{ strtolower($isoCode) }} mr-2"></span>
+                                    <a href="tel:{{ $message->phone }}" class="hover:underline">
+                                        {{ $message->country_code }} {{ $message->phone }}
+                                    </a>
+                                </p>
+                            </div>
+                            @if($message->ruc)
+                            <div>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">RUC/DNI</p>
+                                <p class="dark:text-white">{{ $message->ruc }}</p>
+                            </div>
+                            @endif
+                            <div>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">País</p>
+                                <p class="dark:text-white">
+                                    {{ $codigosPaises[$message->country_code] ?? $message->country_code }}
+                                    <span class="fi fi-{{ strtolower($isoCode) }} ml-2"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detalles del Servicio/Mensaje -->
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-3 text-slate-800 dark:text-slate-100">Detalles del Servicio</h3>
+                        <div class="space-y-3">
+                            @if($message->service_product)
+                            <div>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">Servicio/Producto de interés</p>
+                                <p class="dark:text-white">{{ $message->service_product }}</p>
+                            </div>
+                            @endif
+                           <!-- <div>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">Mensaje</p>
+                                <div class="dark:text-white bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                                    {!! nl2br(e($message->message)) !!}
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
 
                     @if (count($message->answers) > 0)
                         <div class="mb-4">
