@@ -38,7 +38,7 @@
                                         </a>
                                     @endif
                                     <div class="text-sm text-gray-500">{{ $item->email }}</div>
-                                    <div class="text-sm flex items-center">
+                                    <div class="text-sm flex items-center gap-2">
                                       
                                         <span class="flex items-center mr-2">
                                             @php
