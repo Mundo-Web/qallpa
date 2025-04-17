@@ -16,7 +16,7 @@ class MessageController extends Controller
     public function index()
     {
         //
-        $mensajes = Message::orderBy('created_at', 'DESC')
+        $mensajes = Message::orderBy('created_at', 'DESC')->where('status',true)
                             ->get();
                                 // Cargar el JSON de países
     $paisesJson = file_get_contents(public_path('libs/prefijocelular.json'));
