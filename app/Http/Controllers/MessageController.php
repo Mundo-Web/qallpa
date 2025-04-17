@@ -13,12 +13,11 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-        $mensajes = Message::orderBy('created_at', 'DESC')->where('status',true)
-                            ->get();
-                                // Cargar el JSON de países
+   public function index()
+{
+    $mensajes = Message::orderBy('created_at', 'DESC')->where('status',true)->get();
+    
+    // Cargar el JSON de países
     $paisesJson = file_get_contents(public_path('libs/prefijocelular.json'));
     $paises = json_decode($paisesJson, true);
     
@@ -28,10 +27,8 @@ class MessageController extends Controller
         $codigosPaises[$pais['beautyCode']] = $pais['country'];
     }
 
-        return view('pages.message.index', compact('mensajes','codigosPaises'));
-    
-        
-    }
+    return view('pages.message.index', compact('mensajes', 'codigosPaises', 'paises'));
+}
 
     public function showMessageLanding(){
         $mensajeslanding = Message::where('status', '=', 1)
