@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('components.app.sidebar', function ($view) {
             // Obtener los datos del footer
-            $mensajes = Message::where('is_read', '!=', 1 )
+            $mensajes = Message::where('is_read', '!=', 1 )>where('status',true)
                                     ->count(); 
                                  
             // Pasar los datos a la vista
