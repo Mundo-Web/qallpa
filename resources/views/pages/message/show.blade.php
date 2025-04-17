@@ -37,23 +37,17 @@
                                     @endphp
                                     <span class="fi fi-{{ strtolower($isoCode) }} mr-2"></span>
                                     <a href="tel:{{ $message->phone }}" class="hover:underline">
-                                        {{ $message->country_code }} {{ $message->phone }}
+                                        +{{ $message->country_code }} {{ $message->phone }}
                                     </a>
                                 </p>
                             </div>
                             @if($message->ruc)
                             <div>
-                                <p class="font-medium text-gray-500 dark:text-gray-400">RUC/DNI</p>
+                                <p class="font-medium text-gray-500 dark:text-gray-400">RUC</p>
                                 <p class="dark:text-white">{{ $message->ruc }}</p>
                             </div>
                             @endif
-                            <div>
-                                <p class="font-medium text-gray-500 dark:text-gray-400">País</p>
-                                <p class="dark:text-white">
-                                    {{ $codigosPaises[$message->country_code] ?? $message->country_code }}
-                                    <span class="fi fi-{{ strtolower($isoCode) }} ml-2"></span>
-                                </p>
-                            </div>
+                           
                         </div>
                     </div>
 
