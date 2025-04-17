@@ -23,40 +23,47 @@
                         <tbody>
 
                             @foreach ($mensajes as $item)
-                                <tr>
-                                    <td>
-                                        <div class="flex flex-col">
-                                            @if ($item->is_read == '0')
-                                                <a href="{{ route('mensajes.show', $item->id) }}" class="font-bold dark:text-white">
-                                                    <span class="mr-2"><i class="fa-regular fa-envelope"></i></span>
-                                                    {{ $item->full_name }}
-                                                </a>
-                                            @else
-                                                <a href="{{ route('mensajes.show', $item->id) }}">
-                                                    <span class="mr-2"><i class="fa-regular fa-envelope-open"></i></span>
-                                                    {{ $item->full_name }}
-                                                </a>
-                                            @endif
-                                            <div class="text-sm text-gray-500">{{ $item->email }}</div>
-                                            <div class="text-sm">
-                                                <span class="font-medium">{{ $codigosPaises[$item->country_code] ?? $item->country_code }}</span> | 
-                                                Tel: {{ $item->phone }}
-                                                @if($item->ruc)
-                                                    | RUC: {{ $item->ruc }}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{ $item->service_product }}</td>
-                                    <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                    
-                                    <td class="flex flex-row items-center justify-center">
-                                        <button method="POST" onclick="borrarmensaje({{ $item->id }})"
-                                            class="bg-red-600 p-2 rounded text-white"><i
-                                                class="fa-regular fa-trash-can"></i></button>
-                                    </td>
-                                </tr>
-                            @endforeach
+                        <tr>
+                            <td>
+                                <div class="flex flex-col">
+                                    @if ($item->is_read == '0')
+                                        <a href="{{ route('mensajes.show', $item->id) }}" class="font-bold dark:text-white">
+                                            <span class="mr-2"><i class="fa-regular fa-envelope"></i></span>
+                                            {{ $item->full_name }}
+                                        </a>
+                                    @else
+                                        <a href="{{ route('mensajes.show', $item->id) }}">
+                                            <span class="mr-2"><i class="fa-regular fa-envelope-open"></i></span>
+                                            {{ $item->full_name }}
+                                        </a>
+                                    @endif
+                                    <div class="text-sm text-gray-500">{{ $item->email }}</div>
+                                    <div class="text-sm flex items-center">
+                                        <span class="font-medium mr-2">{{ $codigosPaises[$item->country_code] ?? $item->country_code }}</span> | 
+                                        <span class="flex items-center">
+                                            @php
+                                                // Buscar el país correspondiente al código
+                                                $pais = collect($paises)->firstWhere('beautyCode', $item->country_code);
+                                                $isoCode = $pais['isoCode']['ISO1'] ?? 'us'; // Valor por defecto si no encuentra
+                                            @endphp
+                                            <span class="fi fi-{{ strtolower($isoCode) }} mr-1"></span>
+                                            {{ $item->country_code }} {{ $item->phone }}
+                                        </span>
+                                        @if($item->ruc)
+                                            | RUC: {{ $item->ruc }}
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ $item->service_product }}</td>
+                            <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                            <td class="flex flex-row items-center justify-center">
+                                <button method="POST" onclick="borrarmensaje({{ $item->id }})"
+                                    class="bg-red-600 p-2 rounded text-white"><i
+                                        class="fa-regular fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                    @endforeach
 
                         </tbody>
                         <tfoot>
