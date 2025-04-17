@@ -104,7 +104,7 @@ class MessageController extends Controller
         $codigosPaises[$pais['beautyCode']] = $pais['country'];
     }
         
-        return view('pages.message.show', compact('mensajes', 'codigosPaises', 'paises'));
+        return view('pages.message.show', compact('message', 'codigosPaises', 'paises'));
     }
 
 
