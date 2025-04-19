@@ -440,11 +440,12 @@
 ">
                                                 Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta — RER)
                                             </option>
+                                             <option value="Persona Natural o Jurídica (MYPE - Empresas Medianas)">Persona
+                                                Natural o Jurídica (MYPE - Empresas Medianas)</option>
                                             <option
                                                 value="Persona Natural o Jurídica (Régimen General — Empresas Grandes)">
                                                 Persona Natural o Jurídica (Régimen General — Empresas Grandes)</option>
-                                            <option value="Persona Natural o Jurídica (MYPE - Empresas Medianas)">Persona
-                                                Natural o Jurídica (MYPE - Empresas Medianas)</option>
+                                           
                                         </select>
 
                                         <label for="service_product"
