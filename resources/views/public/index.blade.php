@@ -399,8 +399,7 @@
         peer-placeholder-shown:text-gray-500
         peer-focus:-top-1
         peer-focus:text-sm
-        peer-focus:text-verdeo">RUC
-                                            de la empresa*</label>
+        peer-focus:text-verdeo">RUC *</label>
                                     </div>
                                 </div>
 
