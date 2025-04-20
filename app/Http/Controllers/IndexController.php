@@ -1135,9 +1135,9 @@ class IndexController extends Controller
 
             // Versión texto plano IMPORTANTE
             $mail->AltBody = "Hola {$name},\n\nGracias por comunicarte con QALLPA, en breve nos pondremos en contacto contigo.\n\nVisita nuestra web: {$appUrl}";
-
+            $socials = General::first();
             // Construcción más segura del HTML
-            $mail->Body = $this->buildClientEmailHtml($name, $appUrl);
+            $mail->Body = $this->buildClientEmailHtml($name, $appUrl, $socials);
 
             // Configuraciones críticas adicionales
             $mail->Encoding = 'base64';
@@ -1156,16 +1156,15 @@ class IndexController extends Controller
         }
     }
 
-    private function buildClientEmailHtml($name, $appUrl)
+    private function buildClientEmailHtml($name, $appUrl, $socials)
     {
         $logoUrl = $appUrl . '/mail/logo.png';
         $backgroundUrl = $appUrl . '/mail/fondo.png';
         $currentYear = date('Y');
-        $socials = General::first();
+
         $link_facebook = $socials->facebook;
         $link_instagram = $socials->instagram;
         $link_linkedin = $socials->linkedin;
-
         $link_twitter = $socials->twitter;
 
         return <<<HTML
