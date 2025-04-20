@@ -1189,7 +1189,7 @@ class IndexController extends Controller
                 font-size: 40px;
                 font-weight: bold;
                 margin-bottom: 20px;
-                text-shadow: 3px 3px 5px #FFFFFF;
+                text-shadow: 4px 0px 2px #FFFFFF;
             }
         </style>
     </head>
