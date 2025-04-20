@@ -70,14 +70,14 @@ class IndexController extends Controller
     public function index()
     {
         // $productos = Products::all();
-        
-      
+
+
         $general = General::all();
-      
+
         $politicDev = PolyticsCondition::first();
         $termsAndCondicitions = TermsAndCondition::first();
         $polyticChange = PolyticsChange::first();
-     
+
 
 
 
@@ -138,7 +138,7 @@ class IndexController extends Controller
             $textoproducto = ProductosView::first();
             $faqs = Faqs::where('status', '=', 1)->where('visible', '=', 1)->get();
             $categorias = Category::where('status', '=', 1)->where('destacar', '=', 1)->where('visible', '=', 1)->orderBy('order', 'asc')->get();
-           
+
             $subcategorias = Subcategory::all();
             $microcategorias = Microcategory::all();
             $testimonie = Testimony::where('status', '=', 1)->where('visible', '=', 1)->get();
@@ -167,7 +167,7 @@ class IndexController extends Controller
                 }
             }
 
-            return view('public.catalogo', compact('textoproducto','general', 'faqs', 'categorias', 'testimonie', 'filtro', 'productos', 'categoria', 'atributos', 'colecciones', 'page', 'subcategorias', 'microcategorias'));
+            return view('public.catalogo', compact('textoproducto', 'general', 'faqs', 'categorias', 'testimonie', 'filtro', 'productos', 'categoria', 'atributos', 'colecciones', 'page', 'subcategorias', 'microcategorias'));
         } catch (\Throwable $th) {
         }
     }
@@ -223,7 +223,7 @@ class IndexController extends Controller
         $contactos = ContactDetail::where('status', '=', 1)->get();
         $preguntasfrec = Faqs::where('status', '=', 1)->where('visible', '=', 1)->get();
         $faqs = Faqs::where('status', '=', 1)->where('visible', '=', 1)->get();
-        return view('public.contacto', compact('textocontacto','preguntasfrec', 'textoshome','general','contactos','faqs','contactodetalle'));
+        return view('public.contacto', compact('textocontacto', 'preguntasfrec', 'textoshome', 'general', 'contactos', 'faqs', 'contactodetalle'));
     }
 
     public function carrito()
@@ -508,7 +508,7 @@ class IndexController extends Controller
         return view('public.404');
     }
 
-    
+
 
     public function cambioGaleria(Request $request)
     {
@@ -533,19 +533,19 @@ class IndexController extends Controller
 
     public function producto(string $id)
     {
-        
+
         $producto = Products::where('id', '=', $id)->first();
 
         $meta_title = $producto->meta_title ?? $producto->producto;
         $meta_description = $producto->meta_description  ?? Str::limit(strip_tags($producto->description), 160);
         $meta_keywords = $producto->meta_keywords ?? '';
 
-        
+
         $colors = DB::table('imagen_productos')->where('product_id', $id)->groupBy('color_id')->join('attributes_values', 'color_id', 'attributes_values.id')->get();
 
         $productos = Products::where('id', '=', $id)->with('attributes')->with('tags')->get();
 
-       
+
         $especificaciones = Specifications::where('product_id', '=', $id)
             ->where(function ($query) {
                 $query->whereNotNull('tittle')->orWhereNotNull('specifications');
@@ -567,22 +567,22 @@ class IndexController extends Controller
         $ProdComplementarios = $producto->productrelacionados()->where('status', 1)->get();
 
         if ($ProdComplementarios->isEmpty()) {
-          $ProdComplementarios = Products::where('categoria_id', '=', $IdProductosComplementarios)
-              ->where('id', '!=', $producto->id) // Excluir el producto actual
-              ->where('status', 1)
-              ->get();
+            $ProdComplementarios = Products::where('categoria_id', '=', $IdProductosComplementarios)
+                ->where('id', '!=', $producto->id) // Excluir el producto actual
+                ->where('status', 1)
+                ->get();
         }
 
         //$productosRelacionados = Products::where('categoria_id', '=', $IdProductosComplementarios)->get();
 
         $atributos = Attributes::where('status', '=', true)->get();
-      
+
 
         $valorAtributo = AttributesValues::where('status', '=', true)->get();
 
         $url_env = $_ENV['APP_URL'];
 
-        return view('public.product', compact('meta_title','meta_description','meta_keywords', 'producto', 'productos', 'atributos', 'valorAtributo', 'ProdComplementarios', 'productosConGalerias', 'especificaciones', 'url_env', 'colors'));
+        return view('public.product', compact('meta_title', 'meta_description', 'meta_keywords', 'producto', 'productos', 'atributos', 'valorAtributo', 'ProdComplementarios', 'productosConGalerias', 'especificaciones', 'url_env', 'colors'));
     }
 
     public function liquidacion()
@@ -606,24 +606,24 @@ class IndexController extends Controller
             $certificados = Certificados::where('status', '=', 1)->where('visible', '=', 1)->get();
             $nosotros = AboutUs::where('status', '=', 1)->get();
             $benefit = Strength::where('status', '=', 1)->get();
-            return view('public.nosotros', compact('textosnosotros', 'benefit','general', 'testimonie', 'staff', 'nosotros', 'valores','certificados'));
+            return view('public.nosotros', compact('textosnosotros', 'benefit', 'general', 'testimonie', 'staff', 'nosotros', 'valores', 'certificados'));
         } catch (\Throwable $th) {
         }
     }
 
     public function innovaciones()
     {
-      $general = General::first();
-      $innovaciontext = InnovacionView::first();
-      $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->with('tags')->get();
-      $category = Category::where('status', '=', 1)
-                      ->where('visible', '=', 1)
-                      // ->whereHas('productos', function ($query) {
-                      //     $query->where('status', 1)->where('visible', 1);
-                      // })
-                      ->orderBy('order', 'asc')
-                      ->get();
-      return view('public.innovaciones', compact('general','innovaciontext','productos','category'));
+        $general = General::first();
+        $innovaciontext = InnovacionView::first();
+        $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->with('tags')->get();
+        $category = Category::where('status', '=', 1)
+            ->where('visible', '=', 1)
+            // ->whereHas('productos', function ($query) {
+            //     $query->where('status', 1)->where('visible', 1);
+            // })
+            ->orderBy('order', 'asc')
+            ->get();
+        return view('public.innovaciones', compact('general', 'innovaciontext', 'productos', 'category'));
     }
 
     public function novedades()
@@ -635,13 +635,13 @@ class IndexController extends Controller
             $benefit = Liquidacion::where('status', '=', 1)->where('visible', '=', 1)->get();
             $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('canals')->get();
             $category = Category::where('status', '=', 1)
-                            ->where('visible', '=', 1)
-                            // ->whereHas('productos', function ($query) {
-                            //     $query->where('status', 1)->where('visible', 1);
-                            // })
-                            ->orderBy('order', 'asc')
-                            ->get();
-            return view('public.novedades', compact('novedades','benefit','productos','category','general','testimonie'));
+                ->where('visible', '=', 1)
+                // ->whereHas('productos', function ($query) {
+                //     $query->where('status', 1)->where('visible', 1);
+                // })
+                ->orderBy('order', 'asc')
+                ->get();
+            return view('public.novedades', compact('novedades', 'benefit', 'productos', 'category', 'general', 'testimonie'));
         } catch (\Throwable $th) {
         }
     }
@@ -690,19 +690,19 @@ class IndexController extends Controller
     public function detalleBlog($id)
     {
         $post = Blog::where('status', '=', 1)->where('visible', '=', 1)->where('id', '=', $id)->first();
-        
+
         $postsrelacionados = Blog::where('status', '=', 1)
-                         ->where('visible', '=', 1)
-                         ->where('category_id', '=', $post->category_id)
-                         ->where('id', '!=', $post->id) // Excluir el post actual
-                         ->take(6)
-                         ->get();
-        
+            ->where('visible', '=', 1)
+            ->where('category_id', '=', $post->category_id)
+            ->where('id', '!=', $post->id) // Excluir el post actual
+            ->take(6)
+            ->get();
+
         $meta_title = $post->meta_title ?? $post->title;
         $meta_description = $post->meta_description  ?? Str::limit($post->extract, 160);
         $meta_keywords = $post->meta_keywords ?? '';
 
-        return view('public.post', compact('meta_title','meta_description','meta_keywords','post','postsrelacionados'));
+        return view('public.post', compact('meta_title', 'meta_description', 'meta_keywords', 'post', 'postsrelacionados'));
     }
 
     public function catalogosDescargables($filtro)
@@ -733,7 +733,7 @@ class IndexController extends Controller
     {
         $query = $request->input('query');
         $resultados = Products::where('producto', 'like', "%$query%")->where('visible', '=', true)->where('status', '=', true)
-                                ->with('categoria')->get();
+            ->with('categoria')->get();
 
         return response()->json($resultados);
     }
@@ -814,41 +814,41 @@ class IndexController extends Controller
 
 
             if (!is_null($ipAddress)) {
-              $data['ip'] = $ipAddress;
-            }else{
-              $data['ip'] = 'Sin data';
+                $data['ip'] = $ipAddress;
+            } else {
+                $data['ip'] = 'Sin data';
             }
 
             if (!is_null($latitud)) {
-              $data['client_latitude'] = $latitud;
-            }else{
-              $data['client_latitude'] = 'Sin data';
+                $data['client_latitude'] = $latitud;
+            } else {
+                $data['client_latitude'] = 'Sin data';
             }
 
             if (!is_null($longitud)) {
-              $data['client_longitude'] = $longitud;
-            }else{
-              $data['client_longitude'] = 'Sin data';
+                $data['client_longitude'] = $longitud;
+            } else {
+                $data['client_longitude'] = 'Sin data';
             }
 
             if (!is_null($sistema)) {
-              $data['client_system'] = $sistema;
-            }else{
-              $data['client_system'] = 'Sin data';
+                $data['client_system'] = $sistema;
+            } else {
+                $data['client_system'] = 'Sin data';
             }
 
 
             if ($ancho >= 1 && $ancho <= 767) {
-              $data['device'] = 'mobile';
+                $data['device'] = 'mobile';
             } elseif ($ancho >= 768 && $ancho <= 1024) {
-              $data['device'] = 'tablet';
-            } elseif ($ancho >= 1025 ){
-              $data['device'] = 'desktop';
-            } elseif (is_null($ancho)){
-              $data['device'] = 'Sin data';
+                $data['device'] = 'tablet';
+            } elseif ($ancho >= 1025) {
+                $data['device'] = 'desktop';
+            } elseif (is_null($ancho)) {
+                $data['device'] = 'Sin data';
             }
 
-           
+
 
             $dataform = Message::create($data);
             $this->envioCorreoAdmin($dataform);
@@ -877,8 +877,8 @@ class IndexController extends Controller
                 'email' => 'required|email|max:255',
                 'phone' => 'required|numeric',
                 'country_code' => 'required|string',
-                'ruc' =>'required|numeric',
-                'service_product' =>'required|string|max:255',
+                'ruc' => 'required|numeric',
+                'service_product' => 'required|string|max:255',
             ];
             $mensajes = [
                 'full_name.required' => 'El campo nombre es obligatorio.',
@@ -887,70 +887,70 @@ class IndexController extends Controller
                 'email.max' => 'El campo correo electrónico no puede tener más de :max caracteres.',
                 'phone.required' => 'El campo teléfono es obligatorio.',
                 'phone.numeric' => 'El campo teléfono debe ser un número.',
-               
+
                 'country_code.required' => 'El campo código de país es obligatorio.',
                 'country_code.string' => 'El campo código de país debe ser una cadena de texto.',
                 'ruc.required' => 'El campo RUC es obligatorio.',
                 'ruc.numeric' => 'El campo RUC debe ser un número.',
-              
+
                 'service_product.required' => 'El campo producto o servicio es obligatorio.',
                 'service_product.string' => 'El campo producto o servicio debe ser una cadena de texto.',
-    
+
             ];
             $request->validate($reglasValidacion, $mensajes);
 
 
             if (!is_null($ipAddress)) {
-              $data['ip'] = $ipAddress;
-            }else{
-              $data['ip'] = 'Sin data';
+                $data['ip'] = $ipAddress;
+            } else {
+                $data['ip'] = 'Sin data';
             }
 
             if (!is_null($latitud)) {
-              $data['client_latitude'] = $latitud;
-            }else{
-              $data['client_latitude'] = 'Sin data';
+                $data['client_latitude'] = $latitud;
+            } else {
+                $data['client_latitude'] = 'Sin data';
             }
 
             if (!is_null($longitud)) {
-              $data['client_longitude'] = $longitud;
-            }else{
-              $data['client_longitude'] = 'Sin data';
+                $data['client_longitude'] = $longitud;
+            } else {
+                $data['client_longitude'] = 'Sin data';
             }
 
             if (!is_null($sistema)) {
-              $data['client_system'] = $sistema;
-            }else{
-              $data['client_system'] = 'Sin data';
+                $data['client_system'] = $sistema;
+            } else {
+                $data['client_system'] = 'Sin data';
             }
-                     
+
 
             if ($ancho >= 1 && $ancho <= 767) {
-              $data['device'] = 'mobile';
+                $data['device'] = 'mobile';
             } elseif ($ancho >= 768 && $ancho <= 1024) {
-              $data['device'] = 'tablet';
-            } elseif ($ancho >= 1025 ){
-              $data['device'] = 'desktop';
-            } elseif (is_null($ancho)){
-              $data['device'] = 'Sin data';
+                $data['device'] = 'tablet';
+            } elseif ($ancho >= 1025) {
+                $data['device'] = 'desktop';
+            } elseif (is_null($ancho)) {
+                $data['device'] = 'Sin data';
             }
 
-           
+
 
             $formlanding = Message::create($data);
-            
+
             $this->envioCorreoAdmin($formlanding);
             $this->envioCorreoCliente($formlanding);
 
             return response()->json(['message' => 'Redirigiendo a Whatsapp']);
         } catch (ValidationException $e) {
-             \Log::error($e);
+            \Log::error($e);
             return response()->json(['message' => $e->validator->errors()], 400);
         }
     }
 
     public function guardarProducto(Request $request)
-    {   
+    {
         $data = $request->all();
         $data['full_name'] = $request->full_name;
         $data['service_product'] = $request->service_product;
@@ -975,48 +975,48 @@ class IndexController extends Controller
 
 
             if (!is_null($ipAddress)) {
-              $data['ip'] = $ipAddress;
-            }else{
-              $data['ip'] = 'Sin data';
+                $data['ip'] = $ipAddress;
+            } else {
+                $data['ip'] = 'Sin data';
             }
 
             if (!is_null($latitud)) {
-              $data['client_latitude'] = $latitud;
-            }else{
-              $data['client_latitude'] = 'Sin data';
+                $data['client_latitude'] = $latitud;
+            } else {
+                $data['client_latitude'] = 'Sin data';
             }
 
             if (!is_null($longitud)) {
-              $data['client_longitude'] = $longitud;
-            }else{
-              $data['client_longitude'] = 'Sin data';
+                $data['client_longitude'] = $longitud;
+            } else {
+                $data['client_longitude'] = 'Sin data';
             }
 
             if (!is_null($sistema)) {
-              $data['client_system'] = $sistema;
-            }else{
-              $data['client_system'] = 'Sin data';
+                $data['client_system'] = $sistema;
+            } else {
+                $data['client_system'] = 'Sin data';
             }
-            
+
 
             if ($ancho >= 1 && $ancho <= 767) {
-              $data['device'] = 'mobile';
+                $data['device'] = 'mobile';
             } elseif ($ancho >= 768 && $ancho <= 1024) {
-              $data['device'] = 'tablet';
-            } elseif ($ancho >= 1025 ){
-              $data['device'] = 'desktop';
-            } elseif (is_null($ancho)){
-              $data['device'] = 'Sin data';
+                $data['device'] = 'tablet';
+            } elseif ($ancho >= 1025) {
+                $data['device'] = 'desktop';
+            } elseif (is_null($ancho)) {
+                $data['device'] = 'Sin data';
             }
 
 
             $formlanding = Message::create($data);
             $this->envioCorreoAdmin($formlanding);
             $this->envioCorreoCliente($formlanding);
-           
+
             return response()->json(['message' => 'Mensaje enviado con exito']);
         } catch (ValidationException $e) {
-        
+
             return response()->json(['message' => $e->validator->errors()], 400);
         }
     }
@@ -1036,42 +1036,42 @@ class IndexController extends Controller
     {
         $generales = General::first();
         if (!$generales || !$generales->email) {
-             \Log::error('No se encontró email admin en la tabla generales');
+            \Log::error('No se encontró email admin en la tabla generales');
             return false;
         }
-    
+
         $emailadmin = $generales->email;
         $appUrl = env('APP_URL');
         $name = 'Administrador';
         $mensaje = "Nueva solicitud de contacto - QALLPA";
-        
+
         try {
             $mail = EmailConfig::config($name, $mensaje);
             $mail->addAddress($emailadmin);
             $mail->isHTML(true);
-            
+
             // Versión texto plano (alternativa para clientes de email que no soportan HTML)
             $mail->AltBody = "Nueva solicitud de contacto:\n\nNombre: {$data['full_name']}\nEmail: {$data['email']}\nMensaje: {$data['message']}";
-            
+
             // HTML del correo (versión simplificada y más robusta)
             $mail->Body = $this->buildAdminEmailHtml($data, $appUrl, $name);
-            
+
             // Configuración adicional importante
             $mail->SMTPKeepAlive = true;
             $mail->Encoding = 'base64';
-            
+
             if (!$mail->send()) {
-                \Log::error('Error PHPMailer: '.$mail->ErrorInfo);
-                throw new \Exception('Error al enviar correo: '.$mail->ErrorInfo);
+                \Log::error('Error PHPMailer: ' . $mail->ErrorInfo);
+                throw new \Exception('Error al enviar correo: ' . $mail->ErrorInfo);
             }
-            
+
             return true;
         } catch (\Exception $e) {
-            \Log::error('Error en envioCorreoAdmin: '.$e->getMessage());
+            \Log::error('Error en envioCorreoAdmin: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     private function buildAdminEmailHtml($data, $appUrl, $name)
     {
         return <<<HTML
@@ -1123,44 +1123,44 @@ class IndexController extends Controller
     }
 
     private function envioCorreoCliente($data)
-    { 
+    {
         try {
             $name = $data['full_name'];
             $appUrl = env('APP_URL');
             $mensaje = 'Gracias por comunicarte con QALLPA';
-            
+
             $mail = EmailConfig::config($name, $mensaje);
             $mail->addAddress($data['email']);
             $mail->isHTML(true);
-            
+
             // Versión texto plano IMPORTANTE
             $mail->AltBody = "Hola {$name},\n\nGracias por comunicarte con QALLPA, en breve nos pondremos en contacto contigo.\n\nVisita nuestra web: {$appUrl}";
-            
+
             // Construcción más segura del HTML
             $mail->Body = $this->buildClientEmailHtml($name, $appUrl);
-            
+
             // Configuraciones críticas adicionales
             $mail->Encoding = 'base64';
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
-            
+
             if (!$mail->send()) {
-                \Log::error('Error PHPMailer al cliente: '.$mail->ErrorInfo);
-                throw new \Exception('Error al enviar: '.$mail->ErrorInfo);
+                \Log::error('Error PHPMailer al cliente: ' . $mail->ErrorInfo);
+                throw new \Exception('Error al enviar: ' . $mail->ErrorInfo);
             }
-            
+
             return true;
         } catch (\Exception $e) {
-            \Log::error('Excepción en envioCorreoCliente: '.$e->getMessage());
+            \Log::error('Excepción en envioCorreoCliente: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     private function buildClientEmailHtml($name, $appUrl)
     {
-        $logoUrl = $appUrl.'/mail/logo.png';
-        $backgroundUrl = $appUrl.'/mail/fondo.png';
-        
+        $logoUrl = $appUrl . '/mail/logo.png';
+        $backgroundUrl = $appUrl . '/mail/fondo.png';
+
         return <<<HTML
     <!DOCTYPE html>
     <html lang="es">
@@ -1177,18 +1177,19 @@ class IndexController extends Controller
             .btn {
                 display: inline-block;
                 padding: 13px 20px;
-                background-color: #323653;
-                color: #FFFFFF !important;
+                background-color: #A9F1D1;
+                color: #323653 !important;
                 text-decoration: none;
                 border-radius: 32px;
                 font-weight: 600;
                 margin: 20px 0;
             }
             .title {
-                color: #323653;
+                color: #18C991;
                 font-size: 40px;
                 font-weight: bold;
                 margin-bottom: 20px;
+                text-shadow: 3px 3px 5px #FFFFFF;
             }
         </style>
     </head>
@@ -1201,7 +1202,7 @@ class IndexController extends Controller
             </div>
             
             <div class="content">
-                <h1 class="title">¡Gracias <span style="color: #FFFFFF;">por escribirnos!</span></h1>
+                <h1 class="title">¡GRACIAS <span style="color: #FFFFFF;">por escribirnos!</span></h1>
                 
                 <p style="font-size: 18px; margin-bottom: 10px;">Hola {$name}</p>
                 <p style="font-size: 18px; margin-bottom: 20px;">En breve estaremos comunicándonos contigo.</p>
@@ -1280,55 +1281,56 @@ class IndexController extends Controller
 
     // if ($rangefrom !== null && $rangeto !== null) {
 
-            //   if ($filtro == 0) {
-            //     $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->with('tags')->paginate(12);
-            //     $categoria = Category::all();
-            //   } else {
-            //     $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->where('categoria_id', '=', $filtro)->with('tags')->paginate(12);
-            //     $categoria = Category::findOrFail($filtro);
-            //   }
+    //   if ($filtro == 0) {
+    //     $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->with('tags')->paginate(12);
+    //     $categoria = Category::all();
+    //   } else {
+    //     $productos = Products::where('status', '=', 1)->where('visible', '=', 1)->where('categoria_id', '=', $filtro)->with('tags')->paginate(12);
+    //     $categoria = Category::findOrFail($filtro);
+    //   }
 
-            //   $cleanedData = $productos->filter(function ($value) use ($rangefrom, $rangeto) {
+    //   $cleanedData = $productos->filter(function ($value) use ($rangefrom, $rangeto) {
 
-            //     if ($value['descuento'] == 0) {
+    //     if ($value['descuento'] == 0) {
 
-            //       if ($value['precio'] <= $rangeto && $value['precio'] >= $rangefrom) {
-            //         return $value;
-            //       }
-            //     } else {
+    //       if ($value['precio'] <= $rangeto && $value['precio'] >= $rangefrom) {
+    //         return $value;
+    //       }
+    //     } else {
 
-            //       if ($value['descuento'] <= $rangeto && $value['descuento'] >= $rangefrom) {
-            //         return $value;
-            //       }
-            //     }
-            //   });
+    //       if ($value['descuento'] <= $rangeto && $value['descuento'] >= $rangefrom) {
+    //         return $value;
+    //       }
+    //     }
+    //   });
 
-            //   $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            //   $productos = new LengthAwarePaginator(
-            //     $cleanedData->forPage($currentPage, 12), // Obtener los productos por página
-            //     $cleanedData->count(), // Contar todos los elementos
-            //     12, // Número de elementos por página
-            //     $currentPage, // Página actual
-            //     ['path' => request()->url()] // URL base para la paginación
-            //   );
-            // }
+    //   $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    //   $productos = new LengthAwarePaginator(
+    //     $cleanedData->forPage($currentPage, 12), // Obtener los productos por página
+    //     $cleanedData->count(), // Contar todos los elementos
+    //     12, // Número de elementos por página
+    //     $currentPage, // Página actual
+    //     ['path' => request()->url()] // URL base para la paginación
+    //   );
+    // }
 
-      public function politicasDevolucion()
+    public function politicasDevolucion()
 
-      {
+    {
         $politicDev = PolyticsCondition::first();
         return view('public.politicasdeenvio', compact('politicDev'));
-      }
+    }
 
-      public function TerminosyCondiciones()
+    public function TerminosyCondiciones()
 
-      {
+    {
         $termsAndCondicitions = TermsAndCondition::first();
         return view('public.terminosycondiciones', compact('termsAndCondicitions'));
-      }
+    }
 
-      public function obtenerdata(Request $request){
-        
+    public function obtenerdata(Request $request)
+    {
+
         try {
             $producto = Products::where('id', '=', $request->id)->first();
             return response()->json(['menssage' => 'Data obtenida', 'producto' => $producto]);
@@ -1336,6 +1338,5 @@ class IndexController extends Controller
             //throw $th;
             return response()->json(['menssage' => "Ocurrio un error , $th"], 400);
         }
-       
-      }
+    }
 }
