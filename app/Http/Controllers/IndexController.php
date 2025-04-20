@@ -1160,6 +1160,13 @@ class IndexController extends Controller
     {
         $logoUrl = $appUrl . '/mail/logo.png';
         $backgroundUrl = $appUrl . '/mail/fondo.png';
+        $currentYear = date('Y');
+        $socials = General::first();
+        $link_facebook = $socials->facebook;
+        $link_instagram = $socials->instagram;
+        $link_linkedin = $socials->linkedin;
+
+        $link_twitter = $socials->twitter;
 
         return <<<HTML
     <!DOCTYPE html>
@@ -1168,46 +1175,268 @@ class IndexController extends Controller
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Gracias por contactarnos</title>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         <style>
-            body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
-            .email-container { max-width: 600px; margin: 0 auto; background-image: url('{$backgroundUrl}'); background-size: cover; }
-            .header { padding: 40px 0; text-align: center; }
-            .content { padding: 20px; text-align: center; color:  #FFFFFF !important; }
-            .btn {
-                display: inline-block;
-                padding: 13px 20px;
-                background-color: #A9F1D1;
-                color: #323653 !important;
-                text-decoration: none;
-                border-radius: 32px;
-                font-weight: 600;
-                margin: 20px 0;
+            body, html { 
+                margin: 0; 
+                padding: 0; 
+                font-family: 'Montserrat', sans-serif;
+                line-height: 1.6;
+                background-color: #f5f5f5;
             }
+            .wrapper {
+                padding: 20px;
+            }
+            .email-container { 
+                max-width: 600px; 
+                margin: 0 auto; 
+                background-image: url('{$backgroundUrl}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            }
+            .overlay {
+                background: linear-gradient(135deg, rgba(50, 54, 83, 0.75) 0%, rgba(50, 54, 83, 0.65) 100%);
+                padding: 0 0 40px;
+                backdrop-filter: blur(2px);
+            }
+            .header { 
+                padding: 25px 0; 
+                text-align: center;
+                background-color: rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(8px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+                position: relative;
+                overflow: hidden;
+            }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #18C991, #A9F1D1);
+        }
+        .logo {
+            max-width: 200px;
+            height: auto;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        .content { 
+            padding: 40px 30px; 
+            text-align: center; 
+            color: #FFFFFF;
+            position: relative;
+            z-index: 1;
+        }
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #18C991, #A9F1D1);
+            border-radius: 3px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #18C991 0%, #A9F1D1 100%);
+            color: #323653 !important;
+            text-decoration: none;
+            border-radius: 32px;
+            font-weight: 700;
+            margin: 35px 0 15px;
+            box-shadow: 0 6px 20px rgba(24, 201, 145, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transition: all 0.6s ease;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(24, 201, 145, 0.5);
+        }
+        .btn:hover::before {
+            left: 100%;
+        }
+        .title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 35px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+        }
+        .highlight {
+            color: #18C991;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 2px 10px rgba(24, 201, 145, 0.4);
+        }
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #18C991, #A9F1D1);
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(24, 201, 145, 0.5);
+        }
+        .message {
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 35px 0;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #18C991, #A9F1D1);
+            border-radius: 4px 0 0 4px;
+        }
+        .message p {
+            margin-bottom: 12px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .message p:last-child {
+            margin-bottom: 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 0 30px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            position: relative;
+        }
+        .footer p {
+            margin: 5px 0;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .social-icons {
+            margin: 25px 0 15px;
+        }
+        .social-icon {
+            display: inline-block;
+            margin: 0 10px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            backdrop-filter: blur(5px);
+        }
+        .social-icon:hover {
+            background-color: #18C991;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(24, 201, 145, 0.4);
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            margin: 20px 0;
+        }
+        @media only screen and (max-width: 480px) {
             .title {
-                color: #18C991;
-                font-size: 40px;
-                font-weight: bold;
-                margin-bottom: 20px;
-                text-shadow: 4px 0px 2px #FFFFFF;
+                font-size: 32px;
             }
+            .content {
+                padding: 30px 20px;
+            }
+            .message {
+                padding: 25px 20px;
+            }
+            .social-icon {
+                margin: 0 8px;
+                width: 36px;
+                height: 36px;
+                line-height: 36px;
+            }
+        }
         </style>
     </head>
     <body>
-        <div class="email-container">
-            <div class="header">
-                <a href="{$appUrl}" target="_blank">
-                    <img src="{$logoUrl}" alt="QALLPA" style="max-width: 200px;">
-                </a>
+        <div class="wrapper">
+            <div class="email-container">
+                <div class="overlay">
+                <div class="header">
+                    <a href="{$appUrl}" target="_blank">
+                        <img src="{$logoUrl}" alt="QALLPA" class="logo">
+                    </a>
+                </div>
+                
+                <div class="content">
+                    <h1 class="title">¡<span class="highlight">Gracias</span> por escribirnos!</h1>
+                    
+                    <div class="message">
+                        <p style="font-size: 19px; margin-bottom: 15px; font-weight: 600;">Hola {$name},</p>
+                        <p style="font-size: 16px; margin-bottom: 10px;">Hemos recibido tu mensaje correctamente.</p>
+                        <p style="font-size: 16px; font-weight: 500;">Nuestro equipo estará en contacto contigo muy pronto para atender tu solicitud.</p>
+                    </div>
+                    
+                    <a href="{$appUrl}" class="btn" target="_blank">Visita nuestra web</a>
+                    
+                    <div class="social-icons">
+                        <a href="{$link_facebook}" class="social-icon" target="_blank" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        </a>
+                        <a href="{$link_instagram}" class="social-icon" target="_blank" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="{$link_linkedin}" class="social-icon" target="_blank" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        </a>
+                        <a href="{$link_twitter}" class="social-icon" target="_blank" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                        </a>
+                    </div>
+                    
+                    <div class="divider"></div>
+                </div>
+                
+                <div class="footer">
+                    <p>© {$currentYear} QALLPA. Todos los derechos reservados.</p>
+                    <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
+                    <p style="font-size: 11px; margin-top: 15px; color: rgba(255,255,255,0.6);">Si no solicitaste este correo, puedes ignorarlo de forma segura.</p>
+                </div>
             </div>
-            
-            <div class="content">
-                <h1 class="title">¡GRACIAS <span style="color: #FFFFFF;">por escribirnos!</span></h1>
-                
-                <p style="font-size: 18px; margin-bottom: 10px;">Hola {$name}</p>
-                <p style="font-size: 18px; margin-bottom: 20px;">En breve estaremos comunicándonos contigo.</p>
-                
-                <a href="{$appUrl}" class="btn" target="_blank">Visita nuestra web</a>
             </div>
         </div>
     </body>
