@@ -399,7 +399,8 @@
         peer-placeholder-shown:text-gray-500
         peer-focus:-top-1
         peer-focus:text-sm
-        peer-focus:text-verdeo">RUC *</label>
+        peer-focus:text-verdeo">RUC
+                                            *</label>
                                     </div>
                                 </div>
 
@@ -439,12 +440,12 @@
 ">
                                                 Persona Natural o Jurídica (Régimen Especial de Impuesto a la Renta — RER)
                                             </option>
-                                             <option value="Persona Natural o Jurídica (MYPE - Empresas Medianas)">Persona
+                                            <option value="Persona Natural o Jurídica (MYPE - Empresas Medianas)">Persona
                                                 Natural o Jurídica (MYPE - Empresas Medianas)</option>
                                             <option
                                                 value="Persona Natural o Jurídica (Régimen General — Empresas Grandes)">
                                                 Persona Natural o Jurídica (Régimen General — Empresas Grandes)</option>
-                                           
+
                                         </select>
 
                                         <label for="service_product"
@@ -487,7 +488,7 @@
             </section>
 
             <section class="py-6 md:hidden">
-                <p class="text-center text-xl w-2/3 mx-auto">¡Hablmeos! recibe una consulta gratuita.</p>
+                <p class="text-center text-xl w-2/3 mx-auto">¡Hablemos! recibe una consulta gratuita.</p>
             </section>
 
         </section>
